@@ -12,6 +12,7 @@ urlpatterns = [
     path('<int:pk>/confirm-completion/', views.confirm_completion, name='confirm_completion'),
     path('<int:pk>/rate/', views.rate_appointment, name='rate_appointment'),
     path('<int:pk>/messages/', views.appointment_messages, name='appointment_messages'),
+    path('messages/inbox/', views.messages_inbox, name='messages_inbox'),
     path('history/completed/', views.completed_history, name='completed_history'),
     path('<int:pk>/receipt/', views.download_receipt, name='download_receipt'),
 ]
