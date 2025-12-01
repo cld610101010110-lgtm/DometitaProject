@@ -274,3 +274,46 @@ def download_receipt(request, pk):
     buffer.seek(0)
     filename = f"appointment_{appointment.id}_receipt.pdf"
     return FileResponse(buffer, as_attachment=True, filename=filename)
+
+
+@login_required
+def messages_inbox(request):
+    """View all message conversations for the logged-in user"""
+    from django.db.models import Q, Max
+
+    # Get all appointments where user is involved and has messages
+    if request.user.role == 'patient':
+        appointments_with_messages = Appointment.objects.filter(
+            patient=request.user,
+            messages__isnull=False
+        ).distinct().select_related('doctor', 'doctor__user').prefetch_related('messages')
+    elif request.user.role == 'doctor':
+        appointments_with_messages = Appointment.objects.filter(
+            doctor__user=request.user,
+            messages__isnull=False
+        ).distinct().select_related('patient', 'doctor__user').prefetch_related('messages')
+    else:
+        appointments_with_messages = Appointment.objects.none()
+
+    # Add last message info to each appointment
+    conversations = []
+    for appointment in appointments_with_messages:
+        last_message = appointment.messages.order_by('-created_at').first()
+        if last_message:
+            conversations.append({
+                'appointment': appointment,
+                'last_message': last_message,
+                'unread_count': appointment.messages.filter(
+                    recipient=request.user,
+                    sender=last_message.sender
+                ).count()
+            })
+
+    # Sort by most recent message
+    conversations.sort(key=lambda x: x['last_message'].created_at, reverse=True)
+
+    context = {
+        'conversations': conversations,
+        'title': 'Messages'
+    }
+    return render(request, 'pages/messages/inbox.html', context)

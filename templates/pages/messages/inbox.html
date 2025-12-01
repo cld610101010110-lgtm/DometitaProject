@@ -1,0 +1,107 @@
+{% extends 'atomic/base.html' %}
+
+{% block title %}Messages - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .conversation-card {
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 1rem;
+    }
+
+    .conversation-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border-color: #667eea;
+    }
+
+    .unread-badge {
+        background: #667eea;
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+
+    .last-message {
+        color: #666;
+        font-size: 0.9rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0"><i class="bi bi-chat-dots"></i> Messages</h2>
+            </div>
+
+            {% if conversations %}
+                <div class="list-group">
+                    {% for conv in conversations %}
+                    <a href="{% url 'appointments:appointment_messages' conv.appointment.id %}" class="list-group-item list-group-item-action conversation-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-person-circle me-2" style="font-size: 2.5rem; color: #667eea;"></i>
+                                    <div>
+                                        <h5 class="mb-0">
+                                            {% if user.role == 'patient' %}
+                                                Dr. {{ conv.appointment.doctor.user.get_full_name }}
+                                            {% else %}
+                                                {{ conv.appointment.patient.get_full_name }}
+                                            {% endif %}
+                                        </h5>
+                                        <small class="text-muted">
+                                            Appointment: {{ conv.appointment.date|date:"M d, Y" }} at {{ conv.appointment.time|time:"h:i A" }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <p class="last-message mb-0">
+                                    <strong>{{ conv.last_message.sender.get_full_name }}:</strong>
+                                    {{ conv.last_message.message|truncatewords:15 }}
+                                </p>
+                            </div>
+                            <div class="text-end ms-3">
+                                <small class="text-muted d-block mb-2">
+                                    {{ conv.last_message.created_at|date:"M d, h:i A" }}
+                                </small>
+                                {% if conv.unread_count > 0 %}
+                                <span class="unread-badge">{{ conv.unread_count }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="card shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="bi bi-chat-dots" style="font-size: 4rem; color: #ccc;"></i>
+                        <h4 class="mt-3 text-muted">No messages yet</h4>
+                        <p class="text-muted">
+                            {% if user.role == 'patient' %}
+                                Messages with your doctors will appear here.
+                            {% else %}
+                                Messages with your patients will appear here.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
