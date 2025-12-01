@@ -23,7 +23,10 @@ urlpatterns = [
     
     # Admin Account Management
     path('admin/account/update/', views.admin_update_account, name='admin_update_account'),
-    
+
+    # Admin Appointments Management
+    path('admin/appointments/', views.admin_appointments_list, name='admin_appointments_list'),
+
     # Notifications
     path('notifications/', views.notification_list, name='notification_list'),
 ]

@@ -54,8 +54,14 @@ def register_view(request):
 def login_view(request):
     """Handle user login"""
     if request.user.is_authenticated:
-        return redirect('patient_dashboard')
-    
+        # Redirect based on role
+        if request.user.role == 'doctor':
+            return redirect('doctors:dashboard')
+        elif request.user.role == 'admin' or request.user.is_staff:
+            return redirect('admin_dashboard')
+        else:
+            return redirect('patient_dashboard')
+
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -392,12 +398,40 @@ def admin_update_account(request):
 def notification_list(request):
     """View all notifications for the logged-in user"""
     notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
-    
+
     # Mark as read when viewing
     notifications.filter(is_read=False).update(is_read=True)
-    
+
     context = {
         'notifications': notifications,
         'title': 'Notifications'
     }
     return render(request, 'pages/notifications/notification_list.html', context)
+
+
+@login_required
+def admin_appointments_list(request):
+    """Admin view to see all appointments in the system"""
+    if request.user.role != 'admin' and not request.user.is_staff:
+        messages.error(request, 'Access denied. Admin only.')
+        return redirect('home')
+
+    from appointments.models import Appointment
+
+    # Get all appointments
+    appointments = Appointment.objects.all().select_related(
+        'patient', 'doctor', 'doctor__user'
+    ).order_by('-date', '-time')
+
+    # Filter by status if provided
+    status_filter = request.GET.get('status')
+    if status_filter:
+        appointments = appointments.filter(status=status_filter)
+
+    context = {
+        'appointments': appointments,
+        'current_status': status_filter,
+        'is_admin': True,
+        'title': 'All Appointments'
+    }
+    return render(request, 'pages/appointments/appointment_list.html', context)
