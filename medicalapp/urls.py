@@ -18,9 +18,10 @@ urlpatterns = [
     path('admin-dashboard/', account_views.admin_dashboard, name='admin_dashboard'),
     
     # Notifications
-    path('notifications/', account_views.notification_list, name='notification_list'),  # ← Add this
-    
+    path('notifications/', account_views.notification_list, name='notification_list'),
+
     # Include other app URLs
+    path('', include('accounts.urls')),  # Include all accounts URLs
     path('appointments/', include('appointments.urls')),
     path('doctors/', include('doctors.urls')),
 ]
