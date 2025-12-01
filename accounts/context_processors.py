@@ -1,13 +1,26 @@
-# Create context processor for notifications
-# Add this to accounts/context_processors.py
+# Context processor for notifications and messages
 from notifications.models import Notification
+from appointments.models import AppointmentMessage
 
 def notification_context(request):
     if request.user.is_authenticated:
+        # Unread notifications
         notifications = Notification.objects.filter(user=request.user, is_read=False)[:5]
-        unread_count = notifications.count()
+        unread_notifications_count = Notification.objects.filter(user=request.user, is_read=False).count()
+
+        # Unread messages count
+        unread_messages_count = AppointmentMessage.objects.filter(
+            recipient=request.user
+        ).exclude(
+            sender=request.user
+        ).count()
+
         return {
             'recent_notifications': notifications,
-            'unread_count': unread_count
+            'unread_notifications_count': unread_notifications_count,
+            'unread_messages_count': unread_messages_count
         }
-    return {}
+    return {
+        'unread_notifications_count': 0,
+        'unread_messages_count': 0
+    }

@@ -2,59 +2,257 @@
 
 {% block title %}Messages - MedLynk{% endblock %}
 
+{% block extra_css %}
+<style>
+    .messenger-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 15px 15px 0 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .messages-container {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        min-height: 500px;
+        max-height: 600px;
+        overflow-y: auto;
+        border-left: 1px solid #dee2e6;
+        border-right: 1px solid #dee2e6;
+        scroll-behavior: smooth;
+    }
+
+    .message-bubble {
+        max-width: 70%;
+        margin-bottom: 1rem;
+        animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-bubble.sent {
+        margin-left: auto;
+        text-align: right;
+    }
+
+    .message-bubble.received {
+        margin-right: auto;
+        text-align: left;
+    }
+
+    .message-content {
+        display: inline-block;
+        padding: 0.75rem 1rem;
+        border-radius: 18px;
+        word-wrap: break-word;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .message-bubble.sent .message-content {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+
+    .message-bubble.received .message-content {
+        background: white;
+        color: #333;
+        border-bottom-left-radius: 4px;
+    }
+
+    .message-sender {
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: #667eea;
+    }
+
+    .message-time {
+        font-size: 0.7rem;
+        color: #999;
+        margin-top: 0.25rem;
+    }
+
+    .message-bubble.sent .message-time {
+        color: rgba(255,255,255,0.8);
+    }
+
+    .message-input-container {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 0 0 15px 15px;
+        border: 1px solid #dee2e6;
+        border-top: none;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+
+    .message-input {
+        border-radius: 25px;
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1.25rem;
+        resize: none;
+        transition: border-color 0.3s;
+    }
+
+    .message-input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+    }
+
+    .send-button {
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        font-weight: 600;
+        transition: transform 0.2s;
+    }
+
+    .send-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.875rem;
+        margin: 0 0.5rem;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: #999;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.3;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="mb-0"><i class="bi bi-chat-dots"></i> Appointment Messages</h2>
-            <p class="text-muted mb-0">
-                Appointment with Dr. {{ appointment.doctor.user.get_full_name }} on {{ appointment.date|date:"F d, Y" }} at {{ appointment.time|time:"h:i A" }}
-            </p>
+    <div class="messenger-container">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="mb-1">
+                        <i class="bi bi-chat-heart"></i>
+                        {% if user.role == 'patient' %}
+                            Dr. {{ appointment.doctor.user.get_full_name }}
+                        {% else %}
+                            {{ appointment.patient.get_full_name }}
+                        {% endif %}
+                    </h4>
+                    <p class="mb-0 opacity-75" style="font-size: 0.9rem;">
+                        <i class="bi bi-calendar-event"></i>
+                        Appointment: {{ appointment.date|date:"M d, Y" }} at {{ appointment.time|time:"h:i A" }}
+                    </p>
+                </div>
+                <a href="{% url 'appointments:appointment_detail' appointment.id %}" class="btn btn-light btn-sm">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+            </div>
         </div>
-        <a href="{% url 'appointments:appointment_detail' appointment.id %}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back to Details
-        </a>
-    </div>
 
-    <div class="row g-4">
-        <div class="col-lg-7">
-            <div class="card shadow-sm">
-                <div class="card-body" style="max-height: 450px; overflow-y: auto;">
-                    {% if messages_thread %}
-                        {% for item in messages_thread %}
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <strong>{{ item.sender.get_full_name }}</strong>
-                                <small class="text-muted">{{ item.created_at|date:"M d, Y h:i A" }}</small>
-                            </div>
-                            <p class="mb-0">{{ item.message }}</p>
-                            <hr>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-muted mb-0">No messages yet. Start the conversation below.</p>
+        <!-- Messages Area -->
+        <div class="messages-container" id="messagesContainer">
+            {% if messages_thread %}
+                {% for item in messages_thread %}
+                <div class="message-bubble {% if item.sender == user %}sent{% else %}received{% endif %}">
+                    {% if item.sender != user %}
+                    <div class="message-sender">
+                        {{ item.sender.get_full_name }}
+                    </div>
                     {% endif %}
+                    <div class="message-content">
+                        {{ item.message }}
+                    </div>
+                    <div class="message-time">
+                        {{ item.created_at|date:"M d, h:i A" }}
+                        {% if item.sender == user %}
+                        <i class="bi bi-check-all"></i>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-chat-dots"></i>
+                    <p>No messages yet. Start the conversation!</p>
+                </div>
+            {% endif %}
         </div>
-        <div class="col-lg-5">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Send a Message</h5>
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label class="form-label">Message</label>
-                            <textarea name="message" class="form-control" rows="4" placeholder="Type your message..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-send"></i> Send Message
+
+        <!-- Message Input -->
+        <div class="message-input-container">
+            <form method="post" id="messageForm">
+                {% csrf_token %}
+                <div class="row g-2 align-items-end">
+                    <div class="col">
+                        <textarea
+                            name="message"
+                            class="form-control message-input"
+                            rows="2"
+                            placeholder="Type your message..."
+                            required
+                            id="messageInput"
+                        ></textarea>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary send-button">
+                            <i class="bi bi-send-fill"></i> Send
                         </button>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
 {% endblock %}
 
+{% block extra_js %}
+<script>
+    // Auto-scroll to bottom on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('messagesContainer');
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Focus on input
+        const messageInput = document.getElementById('messageInput');
+        if (messageInput) {
+            messageInput.focus();
+        }
+
+        // Submit with Ctrl+Enter
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                document.getElementById('messageForm').submit();
+            }
+        });
+    });
+</script>
+{% endblock %}
