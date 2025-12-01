@@ -82,14 +82,26 @@ def appointment_create(request):
 @login_required
 def appointment_detail(request, pk):
     """View single appointment details"""
-    appointment = get_object_or_404(Appointment, pk=pk, patient=request.user)
-    
+    # Allow admin, patient, and doctor to view
+    appointment = get_object_or_404(Appointment, pk=pk)
+
+    # Check permissions
+    if request.user.role == 'patient':
+        if appointment.patient != request.user:
+            raise Http404("Appointment not found")
+    elif request.user.role == 'doctor':
+        if appointment.doctor.user != request.user:
+            raise Http404("Appointment not found")
+    elif request.user.role != 'admin' and not request.user.is_staff:
+        raise Http404("Appointment not found")
+
     # Check if rating exists
     has_rating = hasattr(appointment, 'rating')
-    
+
     context = {
         'appointment': appointment,
         'has_rating': has_rating,
+        'is_admin': request.user.role == 'admin' or request.user.is_staff,
         'title': 'Appointment Details'
     }
     return render(request, 'pages/appointments/appointment_detail.html', context)
