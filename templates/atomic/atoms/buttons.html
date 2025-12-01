@@ -1,0 +1,12 @@
+{% comment %}
+Usage: {% include 'atomic/atoms/button.html' with text='Click Me' type='primary' %}
+Types: primary, secondary, outline, danger
+{% endcomment %}
+
+<button type="{{ button_type|default:'button' }}"
+        class="btn btn-{{ type|default:'primary' }} {% if block %}btn-block{% endif %} {% if icon %}{% endif %}"
+        {% if id %}id="{{ id }}" {% endif %}
+        {% if onclick %}onclick="{{ onclick }}" {% endif %}>
+    {% if icon %}<i class="bi bi-{{ icon }}"></i>{% endif %}
+    {{ text }}
+</button>

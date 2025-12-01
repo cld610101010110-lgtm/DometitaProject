@@ -1,0 +1,305 @@
+{% extends 'atomic/base.html' %}
+
+{% block title %}Notifications - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 0 0 30px 30px;
+    }
+
+    .notification-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .notification-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border-left: 4px solid;
+        display: flex;
+        gap: 1rem;
+        align-items: start;
+    }
+
+        .notification-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .notification-card.unread {
+            background: rgba(102, 126, 234, 0.03);
+            border-left-color: #667eea;
+        }
+
+        .notification-card.info {
+            border-left-color: #17a2b8;
+        }
+
+        .notification-card.success {
+            border-left-color: #28a745;
+        }
+
+        .notification-card.warning {
+            border-left-color: #ffc107;
+        }
+
+        .notification-card.danger {
+            border-left-color: #dc3545;
+        }
+
+    .notification-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+
+        .notification-icon.info {
+            background: rgba(23, 162, 184, 0.1);
+            color: #17a2b8;
+        }
+
+        .notification-icon.success {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .notification-icon.warning {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .notification-icon.danger {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+    .notification-content {
+        flex: 1;
+    }
+
+    .notification-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-shrink: 0;
+    }
+
+    .filter-tabs {
+        background: white;
+        border-radius: 15px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 20px;
+    }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: #dee2e6;
+            margin-bottom: 1.5rem;
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="mb-2"><i class="bi bi-bell"></i> Notifications</h1>
+                <p class="mb-0 opacity-75">Stay updated with your appointments and activities</p>
+            </div>
+            <button class="btn btn-light" onclick="markAllAsRead()">
+                <i class="bi bi-check-all"></i> Mark All as Read
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="notification-container">
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <div class="d-flex flex-wrap justify-content-center">
+                <button class="btn btn-primary m-1">
+                    <i class="bi bi-list"></i> All
+                </button>
+                <button class="btn btn-outline-secondary m-1">
+                    <i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i> Unread
+                </button>
+                <button class="btn btn-outline-info m-1">
+                    <i class="bi bi-calendar"></i> Appointments
+                </button>
+                <button class="btn btn-outline-success m-1">
+                    <i class="bi bi-check-circle"></i> Updates
+                </button>
+                <button class="btn btn-outline-warning m-1">
+                    <i class="bi bi-exclamation-triangle"></i> Reminders
+                </button>
+            </div>
+        </div>
+
+        <!-- Notifications List -->
+        {% if notifications %}
+        <!-- Sample Unread Notification -->
+        <div class="notification-card unread info">
+            <div class="notification-icon info">
+                <i class="bi bi-calendar-check"></i>
+            </div>
+            <div class="notification-content">
+                <h6 class="mb-1">Appointment Confirmed</h6>
+                <p class="mb-2 text-muted">
+                    Your appointment with Dr. John Smith on November 15, 2025 at 10:00 AM has been confirmed.
+                </p>
+                <small class="text-muted">
+                    <i class="bi bi-clock"></i> 2 hours ago
+                </small>
+            </div>
+            <div class="notification-actions">
+                <button class="btn btn-sm btn-outline-primary" onclick="markAsRead(this)">
+                    <i class="bi bi-check"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sample Success Notification -->
+        <div class="notification-card success">
+            <div class="notification-icon success">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <div class="notification-content">
+                <h6 class="mb-1">Appointment Completed</h6>
+                <p class="mb-2 text-muted">
+                    Your checkup with Dr. Sarah Johnson has been completed. Medical records have been updated.
+                </p>
+                <small class="text-muted">
+                    <i class="bi bi-clock"></i> Yesterday
+                </small>
+            </div>
+            <div class="notification-actions">
+                <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sample Warning Notification -->
+        <div class="notification-card unread warning">
+            <div class="notification-icon warning">
+                <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <div class="notification-content">
+                <h6 class="mb-1">Appointment Reminder</h6>
+                <p class="mb-2 text-muted">
+                    Don't forget! You have an appointment with Dr. Michael Brown tomorrow at 3:00 PM.
+                </p>
+                <small class="text-muted">
+                    <i class="bi bi-clock"></i> 5 hours ago
+                </small>
+            </div>
+            <div class="notification-actions">
+                <button class="btn btn-sm btn-outline-primary" onclick="markAsRead(this)">
+                    <i class="bi bi-check"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sample Danger Notification -->
+        <div class="notification-card danger">
+            <div class="notification-icon danger">
+                <i class="bi bi-x-circle"></i>
+            </div>
+            <div class="notification-content">
+                <h6 class="mb-1">Appointment Cancelled</h6>
+                <p class="mb-2 text-muted">
+                    Your appointment with Dr. Emily Davis on November 10, 2025 has been cancelled. Please reschedule.
+                </p>
+                <small class="text-muted">
+                    <i class="bi bi-clock"></i> 2 days ago
+                </small>
+            </div>
+            <div class="notification-actions">
+                <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sample Info Notification -->
+        <div class="notification-card info">
+            <div class="notification-icon info">
+                <i class="bi bi-info-circle"></i>
+            </div>
+            <div class="notification-content">
+                <h6 class="mb-1">New Doctor Available</h6>
+                <p class="mb-2 text-muted">
+                    Dr. Robert Wilson, a cardiologist with 15 years of experience, has joined our network.
+                </p>
+                <small class="text-muted">
+                    <i class="bi bi-clock"></i> 3 days ago
+                </small>
+            </div>
+            <div class="notification-actions">
+                <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+            <i class="bi bi-bell-slash"></i>
+            <h4 class="text-muted">No Notifications</h4>
+            <p class="text-muted">You're all caught up! No new notifications at this time.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function markAsRead(button) {
+    const card = button.closest('.notification-card');
+    card.classList.remove('unread');
+    button.remove();
+
+    // Here you would also make an AJAX call to mark as read in the database
+}
+
+function markAllAsRead() {
+    document.querySelectorAll('.notification-card.unread').forEach(card => {
+        card.classList.remove('unread');
+        const markBtn = card.querySelector('.btn-outline-primary');
+        if (markBtn) markBtn.remove();
+    });
+
+    // Here you would also make an AJAX call to mark all as read in the database
+}
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\notifications",
+    "\\static",
+    "\\static\\css",
+    "\\static\\js",
+    "\\templates",
+    "\\templates\\atomic",
+    "\\templates\\pages",
+    "\\templates\\pages\\admin",
+    "\\templates\\pages\\appointments"
+  ],
+  "SelectedNode": "\\templates\\pages\\appointments",
+  "PreviewInSolutionExplorer": false
+}

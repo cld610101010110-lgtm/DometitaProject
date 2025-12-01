@@ -1,0 +1,150 @@
+{% extends 'atomic/base.html' %}
+
+{% block title %}Rate Appointment - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .rating-container {
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+    
+    .rating-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .star-rating {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 2rem 0;
+    }
+    
+    .star {
+        font-size: 3rem;
+        color: #ddd;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .star:hover,
+    .star.active {
+        color: #ffc107;
+        transform: scale(1.1);
+    }
+    
+    .doctor-info-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="rating-container">
+        <div class="rating-card">
+            <h2 class="mb-4 text-center">
+                <i class="bi bi-star-fill text-warning"></i> Rate Your Experience
+            </h2>
+            
+            <div class="doctor-info-card text-center">
+                <h4>Dr. {{ appointment.doctor.user.get_full_name }}</h4>
+                <p class="mb-0">{{ appointment.doctor.specialization }}</p>
+                <p class="mb-0 mt-2">
+                    <small>Appointment on {{ appointment.date|date:"F d, Y" }} at {{ appointment.time|time:"h:i A" }}</small>
+                </p>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label class="form-label fw-bold">How would you rate this doctor?</label>
+                    <div class="star-rating" id="starRating">
+                        <i class="bi bi-star star" data-rating="1"></i>
+                        <i class="bi bi-star star" data-rating="2"></i>
+                        <i class="bi bi-star star" data-rating="3"></i>
+                        <i class="bi bi-star star" data-rating="4"></i>
+                        <i class="bi bi-star star" data-rating="5"></i>
+                    </div>
+                    <input type="hidden" name="rating" id="ratingInput" required>
+                    {% if form.rating.errors %}
+                        <div class="text-danger small">{{ form.rating.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="id_comment" class="form-label">Share your experience (optional)</label>
+                    {{ form.comment }}
+                    {% if form.comment.errors %}
+                        <div class="text-danger small">{{ form.comment.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="d-flex gap-2 justify-content-center">
+                    <a href="{% url 'appointments:appointment_detail' appointment.id %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle"></i> Submit Rating
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('ratingInput');
+    
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = this.getAttribute('data-rating');
+            ratingInput.value = rating;
+            
+            stars.forEach((s, index) => {
+                if (index < rating) {
+                    s.classList.add('active');
+                    s.classList.remove('bi-star');
+                    s.classList.add('bi-star-fill');
+                } else {
+                    s.classList.remove('active');
+                    s.classList.remove('bi-star-fill');
+                    s.classList.add('bi-star');
+                }
+            });
+        });
+        
+        star.addEventListener('mouseenter', function() {
+            const rating = this.getAttribute('data-rating');
+            stars.forEach((s, index) => {
+                if (index < rating) {
+                    s.style.color = '#ffc107';
+                } else {
+                    s.style.color = '#ddd';
+                }
+            });
+        });
+    });
+    
+    document.querySelector('.star-rating').addEventListener('mouseleave', function() {
+        const currentRating = ratingInput.value;
+        stars.forEach((s, index) => {
+            if (index < currentRating) {
+                s.style.color = '#ffc107';
+            } else {
+                s.style.color = '#ddd';
+            }
+        });
+    });
+</script>
+{% endblock %}
+

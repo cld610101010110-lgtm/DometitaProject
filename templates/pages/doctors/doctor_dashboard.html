@@ -1,0 +1,300 @@
+﻿{% extends 'atomic/base.html' %}
+
+{% block title %}Doctor Dashboard - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-container {
+        padding: 2rem 0;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card.primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .stat-card.success { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    .stat-card.info { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .stat-card.warning { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 0.5rem 0;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    .appointment-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-left: 4px solid #667eea;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+    .appointment-card:hover {
+        transform: translateX(5px);
+    }
+
+    .appointment-time {
+        font-weight: bold;
+        color: #667eea;
+    }
+
+    .badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+    }
+
+    .badge-pending { background: #ffc107; color: #000; }
+    .badge-confirmed { background: #28a745; color: #fff; }
+    .badge-completed { background: #6c757d; color: #fff; }
+    .badge-cancelled { background: #dc3545; color: #fff; }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .action-btn {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.85rem;
+        margin: 0 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="container">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>👨‍⚕️ Doctor Dashboard</h2>
+                <p class="text-muted">Welcome back, Dr. {{ request.user.get_full_name }}! Here's what's happening today.</p>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-card primary">
+                    <div class="stat-label">Today's Appointments</div>
+                    <div class="stat-number">{{ todays_count }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card warning">
+                    <div class="stat-label">Pending Approval</div>
+                    <div class="stat-number">{{ pending_count }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card info">
+                    <div class="stat-label">Total Patients</div>
+                    <div class="stat-number">{{ total_patients }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card success">
+                    <div class="stat-label">All Appointments</div>
+                    <div class="stat-number">{{ total_appointments }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Schedule -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="section-header">
+                    <h4>📅 Today's Schedule</h4>
+                    <a href="{% url 'doctors:appointments' %}?date=today" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                
+                {% if todays_appointments %}
+                    {% for appointment in todays_appointments %}
+                    <div class="appointment-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="appointment-time">{{ appointment.time|time:"h:i A" }}</div>
+                                <div class="mt-2">
+                                    <strong>Patient:</strong> {{ appointment.patient.get_full_name }}<br>
+                                    <strong>Reason:</strong> {{ appointment.reason|truncatewords:10 }}
+                                </div>
+                            </div>
+                            <div>
+                                <span class="badge badge-{{ appointment.status }}">{{ appointment.get_status_display }}</span>
+                            </div>
+                        </div>
+                        {% if appointment.status == 'pending' %}
+                        <div class="mt-2">
+                            <a href="{% url 'doctors:appointment_action' appointment.id 'confirm' %}" 
+                               class="btn btn-success btn-sm action-btn"
+                               onclick="return confirm('Confirm this appointment?')">✓ Confirm</a>
+                            <a href="{% url 'doctors:appointment_action' appointment.id 'cancel' %}" 
+                               class="btn btn-danger btn-sm action-btn"
+                               onclick="return confirm('Cancel this appointment?')">✗ Cancel</a>
+                        </div>
+                        {% elif appointment.status == 'confirmed' %}
+                        <div class="mt-2">
+                            <a href="{% url 'doctors:appointment_action' appointment.id 'complete' %}" 
+                               class="btn btn-primary btn-sm action-btn"
+                               onclick="return confirm('Mark as completed?')">✓ Mark Complete</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> No appointments scheduled for today.
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Pending Approvals -->
+            <div class="col-md-6">
+                <div class="section-header">
+                    <h4>⏳ Pending Approvals</h4>
+                    <a href="{% url 'doctors:appointments' %}?status=pending" class="btn btn-sm btn-outline-warning">View All</a>
+                </div>
+                
+                {% if pending_appointments %}
+                    {% for appointment in pending_appointments|slice:":5" %}
+                    <div class="appointment-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="appointment-time">
+                                    {{ appointment.date|date:"M d, Y" }} at {{ appointment.time|time:"h:i A" }}
+                                </div>
+                                <div class="mt-2">
+                                    <strong>Patient:</strong> {{ appointment.patient.get_full_name }}<br>
+                                    <strong>Reason:</strong> {{ appointment.reason|truncatewords:10 }}
+                                </div>
+                            </div>
+                            <div>
+                                <span class="badge badge-pending">Pending</span>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <a href="{% url 'doctors:appointment_action' appointment.id 'confirm' %}" 
+                               class="btn btn-success btn-sm action-btn"
+                               onclick="return confirm('Confirm this appointment?')">✓ Confirm</a>
+                            <a href="{% url 'doctors:appointment_action' appointment.id 'cancel' %}" 
+                               class="btn btn-danger btn-sm action-btn"
+                               onclick="return confirm('Cancel this appointment?')">✗ Decline</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> No pending appointments to approve!
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Upcoming Appointments -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="section-header">
+                    <h4>📆 Upcoming Appointments (Next 7 Days)</h4>
+                    <a href="{% url 'doctors:appointments' %}?date=upcoming" class="btn btn-sm btn-outline-info">View All</a>
+                </div>
+                
+                {% if upcoming_appointments %}
+                    <div class="row">
+                        {% for appointment in upcoming_appointments %}
+                        <div class="col-md-4">
+                            <div class="appointment-card">
+                                <div class="appointment-time">
+                                    {{ appointment.date|date:"M d, Y" }}<br>
+                                    {{ appointment.time|time:"h:i A" }}
+                                </div>
+                                <div class="mt-2">
+                                    <strong>{{ appointment.patient.get_full_name }}</strong><br>
+                                    <small class="text-muted">{{ appointment.reason|truncatewords:8 }}</small>
+                                </div>
+                                <div class="mt-2">
+                                    <span class="badge badge-{{ appointment.status }}">{{ appointment.get_status_display }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> No upcoming appointments in the next 7 days.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Availability Toggle -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="mb-3">Availability Status</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-1">
+                                    <strong>Current Status:</strong> 
+                                    <span class="badge {% if doctor_profile.is_available %}bg-success{% else %}bg-danger{% endif %}">
+                                        {% if doctor_profile.is_available %}Available{% else %}Not Available{% endif %}
+                                    </span>
+                                </p>
+                                <small class="text-muted">
+                                    {% if doctor_profile.is_available %}
+                                        Patients can see and book appointments with you.
+                                    {% else %}
+                                        Your profile is hidden from patient search. Patients cannot book appointments.
+                                    {% endif %}
+                                </small>
+                            </div>
+                            <form method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" name="toggle_availability" class="btn {% if doctor_profile.is_available %}btn-warning{% else %}btn-success{% endif %}">
+                                    <i class="bi bi-{% if doctor_profile.is_available %}x-circle{% else %}check-circle{% endif %}"></i>
+                                    {% if doctor_profile.is_available %}Mark as Unavailable{% else %}Mark as Available{% endif %}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <h4>⚡ Quick Actions</h4>
+                <div class="btn-group" role="group">
+                    <a href="{% url 'doctors:appointments' %}" class="btn btn-primary">
+                        <i class="fas fa-calendar-alt"></i> View All Appointments
+                    </a>
+                    <a href="{% url 'doctors:patients' %}" class="btn btn-info">
+                        <i class="fas fa-users"></i> View My Patients
+                    </a>
+                    <a href="{% url 'profile' %}" class="btn btn-secondary">
+                        <i class="fas fa-user"></i> Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

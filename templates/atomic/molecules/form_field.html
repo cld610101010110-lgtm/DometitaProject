@@ -1,0 +1,60 @@
+{% comment %}
+Reusable form field component
+Usage: {% include 'atomic/molecules/form_field.html' with field=form.field_name %}
+{% endcomment %}
+
+<div class="mb-3">
+    {% if label %}
+    <label for="{{ id|default:name }}" class="form-label">
+        {{ label }}
+        {% if required %}<span class="text-danger">*</span>{% endif %}
+    </label>
+    {% endif %}
+
+    {% if type == 'textarea' %}
+    <textarea class="form-control {% if error %}is-invalid{% endif %}"
+              id="{{ id|default:name }}"
+              name="{{ name }}"
+              rows="{{ rows|default:3 }}"
+              placeholder="{{ placeholder }}"
+              {% if required %}required{% endif %}>{{ value|default:'' }}</textarea>
+
+    {% elif type == 'select' %}
+    <select class="form-select {% if error %}is-invalid{% endif %}"
+            name="{{ name }}"
+            id="{{ id|default:name }}"
+            {% if required %}required{% endif %}>
+        <option value="">{{ placeholder|default:'Select...' }}</option>
+        {% for option in options %}
+        <option value="{{ option.value }}" {% if option.value == value %}selected{% endif %}>
+            {{ option.label }}
+        </option>
+        {% endfor %}
+    </select>
+    {% else %}
+    <input type="{{ type|default:'text' }}"
+           class="form-control {% if error %}is-invalid{% endif %}"
+           name="{{ name }}"
+           id="{{ id|default:name }}"
+           placeholder="{{ placeholder }}"
+           value="{{ value|default:'' }}"
+           {% if required %}required{% endif %}
+           {% if readonly %}readonly{% endif %}
+           {% if min %}min="{{ min }}" {% endif %}
+           {% if max %}max="{{ max }}" {% endif %}
+           {% if step %}step="{{ step }}" {% endif %}
+           {% if pattern %}pattern="{{ pattern }}" {% endif %}
+           {% if minlength %}minlength="{{ minlength }}" {% endif %}
+           {% if maxlength %}maxlength="{{ maxlength }}" {% endif %}>
+    {% endif %}
+
+    {% if help_text %}
+    <small class="form-text text-muted">{{ help_text }}</small>
+    {% endif %}
+
+    {% if error %}
+    <div class="invalid-feedback">
+        {{ error }}
+    </div>
+    {% endif %}
+</div>

@@ -1,0 +1,447 @@
+{% extends 'atomic/base.html' %}
+{% load static %}
+
+{% block title %}My Dashboard - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0 0 30px 30px;
+    }
+    
+    .welcome-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    .quick-action-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        height: 100%;
+    }
+    
+    .quick-action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .quick-action-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.5rem;
+        color: white;
+    }
+    
+    .icon-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .icon-success { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); }
+    .icon-warning { background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); }
+    .icon-info { background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); }
+    
+    .upcoming-appointment {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .appointment-time {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    
+    .health-record-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        margin-bottom: 1rem;
+    }
+    
+    .health-metric {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .metric-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+    
+    .activity-item {
+        display: flex;
+        align-items: start;
+        padding: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    
+    .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .activity-content {
+        flex: 1;
+    }
+    
+    .activity-time {
+        font-size: 0.875rem;
+        color: #999;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: #999;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        opacity: 0.3;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="mb-2">Welcome back, {{ request.user.get_full_name }}!</h2>
+                <p class="mb-0" style="opacity: 0.9;">Here's your health overview for today</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <div class="welcome-card" style="background: rgba(255,255,255,0.2); color: white;">
+                    <div class="mb-1"><small>Today's Date</small></div>
+                    <h5 class="mb-0">{% now "F d, Y" %}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Quick Actions -->
+            <h5 class="mb-3"><i class="bi bi-lightning-charge"></i> Quick Actions</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-4 col-sm-6">
+                    <div class="quick-action-card" onclick="window.location.href='{% url 'appointments:appointment_create' %}'">
+                        <div class="quick-action-icon icon-primary">
+                            <i class="bi bi-calendar-plus"></i>
+                        </div>
+                        <h6>Book Appointment</h6>
+                        <small class="text-muted">Schedule a visit</small>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-sm-6">
+                    <div class="quick-action-card" onclick="window.location.href='{% url 'doctors:doctor_list' %}'">
+                        <div class="quick-action-icon icon-success">
+                            <i class="bi bi-person-hearts"></i>
+                        </div>
+                        <h6>Find Doctor</h6>
+                        <small class="text-muted">Browse specialists</small>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-sm-6">
+                    <div class="quick-action-card" onclick="window.location.href='{% url 'appointments:appointment_list' %}'">
+                        <div class="quick-action-icon icon-info">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <h6>My Appointments</h6>
+                        <small class="text-muted">View all</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Appointments -->
+            <h5 class="mb-3"><i class="bi bi-calendar-check"></i> Upcoming Appointments</h5>
+            
+            {% if upcoming_appointments %}
+                {% for appointment in upcoming_appointments %}
+                <div class="upcoming-appointment">
+                    <div class="row align-items-center">
+                        <div class="col-md-3 text-center border-end">
+                            <div class="appointment-time">{{ appointment.time|time:"g:i" }}</div>
+                            <div style="opacity: 0.9;">{{ appointment.time|time:"A" }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mb-1">Dr. {{ appointment.doctor.user.get_full_name }}</h5>
+                            <p class="mb-1" style="opacity: 0.9;">{{ appointment.doctor.specialization }}</p>
+                            <p class="mb-0"><i class="bi bi-calendar"></i> {{ appointment.date|date:"F d, Y" }}</p>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <span class="badge bg-light text-dark mb-2">{{ appointment.get_status_display }}</span><br>
+                            <a href="{% url 'appointments:appointment_detail' pk=appointment.id %}" class="btn btn-light btn-sm">
+                                <i class="bi bi-info-circle"></i> Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="health-record-card">
+                    <div class="empty-state">
+                        <i class="bi bi-calendar-x"></i>
+                        <h6>No Upcoming Appointments</h6>
+                        <p class="text-muted">You don't have any scheduled appointments yet.</p>
+                        <a href="{% url 'appointments:appointment_create' %}" class="btn btn-primary">
+                            <i class="bi bi-calendar-plus"></i> Book Your First Appointment
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Body Metrics -->
+            <h5 class="mb-3 mt-4"><i class="bi bi-activity"></i> Body Metrics</h5>
+            <div class="health-record-card">
+                {% if request.user.height and request.user.weight %}
+                    <div class="row g-3">
+                        {% if age %}
+                        <div class="col-md-4">
+                            <div class="health-metric">
+                                <div>
+                                    <i class="bi bi-cake text-primary"></i>
+                                    <span class="ms-2">Age</span>
+                                </div>
+                                <div class="metric-value">{{ age }} years</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="col-md-4">
+                            <div class="health-metric">
+                                <div>
+                                    <i class="bi bi-arrows-vertical text-info"></i>
+                                    <span class="ms-2">Height</span>
+                                </div>
+                                <div class="metric-value">{{ request.user.height }} cm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="health-metric">
+                                <div>
+                                    <i class="bi bi-speedometer text-warning"></i>
+                                    <span class="ms-2">Weight</span>
+                                </div>
+                                <div class="metric-value">{{ request.user.weight }} kg</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="health-metric">
+                                <div>
+                                    <i class="bi bi-calculator text-success"></i>
+                                    <span class="ms-2">BMI (Body Mass Index)</span>
+                                </div>
+                                <div class="w-100">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="metric-value mb-0">{{ bmi|floatformat:1 }}</div>
+                                        <span class="badge 
+                                            {% if bmi_category == 'Underweight' %}bg-info
+                                            {% elif bmi_category == 'Normal weight' %}bg-success
+                                            {% elif bmi_category == 'Overweight' %}bg-warning
+                                            {% else %}bg-danger{% endif %}">
+                                            {{ bmi_category }}
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- BMI Progress Bar -->
+                                    <div class="progress" style="height: 25px; border-radius: 15px;">
+                                        {% if bmi < 18.5 %}
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: {% widthratio bmi 30 100 %}%">
+                                                <small>Underweight</small>
+                                            </div>
+                                        {% elif bmi < 25 %}
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {% widthratio bmi 30 100 %}%">
+                                                <small>Normal</small>
+                                            </div>
+                                        {% elif bmi < 30 %}
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: {% widthratio bmi 30 100 %}%">
+                                                <small>Overweight</small>
+                                            </div>
+                                        {% else %}
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: {% widthratio bmi 40 100 %}%">
+                                                <small>Obese</small>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- BMI Scale Indicator -->
+                                    <div class="d-flex justify-content-between mt-2" style="font-size: 0.75rem; color: #6c757d;">
+                                        <span>Underweight<br><small>&lt;18.5</small></span>
+                                        <span>Normal<br><small>18.5-24.9</small></span>
+                                        <span>Overweight<br><small>25-29.9</small></span>
+                                        <span>Obese<br><small>&ge;30</small></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <a href="{% url 'profile' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil"></i> Update Body Metrics
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-clipboard-data"></i>
+                        <h6>No Body Metrics Found</h6>
+                        <p class="text-muted">Add your height, weight, and date of birth to track your BMI.</p>
+                        <a href="{% url 'profile' %}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> Add Body Metrics
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Recent Completed Appointments -->
+            <div class="health-record-card mt-4">
+                <h6 class="mb-3"><i class="bi bi-clock-history"></i> Recent Completed Appointments</h6>
+                
+                {% if completed_appointments %}
+                    {% for appointment in completed_appointments %}
+                    <div class="activity-item">
+                        <div class="activity-icon icon-success">
+                            <i class="bi bi-check-circle text-white"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6 class="mb-1">Appointment with Dr. {{ appointment.doctor.user.get_full_name }}</h6>
+                            <p class="text-muted mb-0">{{ appointment.doctor.specialization }}</p>
+                            <div class="activity-time">
+                                <i class="bi bi-calendar"></i> {{ appointment.date|date:"F d, Y" }} at {{ appointment.time|time:"g:i A" }}
+                            </div>
+                        </div>
+                        <div>
+                            <a href="{% url 'appointments:appointment_detail' pk=appointment.id %}" class="btn btn-sm btn-outline-primary">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-clock-history"></i>
+                        <p class="text-muted mb-0">No completed appointments yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Profile Summary -->
+            <div class="health-record-card">
+                <div class="text-center mb-3">
+                    <div class="mb-3" style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto;">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <h5 class="mb-1">{{ request.user.get_full_name }}</h5>
+                    <p class="text-muted mb-2">Patient ID: #{{ request.user.id }}</p>
+                    {% if request.user.is_active %}
+                        <span class="badge bg-success">Active</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Inactive</span>
+                    {% endif %}
+                </div>
+                
+                <hr>
+                
+                <div class="mb-2">
+                    <small class="text-muted">Email</small>
+                    <p class="mb-0"><strong>{{ request.user.email }}</strong></p>
+                </div>
+                
+                {% if request.user.phone_number %}
+                <div class="mb-2">
+                    <small class="text-muted">Phone</small>
+                    <p class="mb-0"><strong>{{ request.user.phone_number }}</strong></p>
+                </div>
+                {% endif %}
+                
+                {% if request.user.date_of_birth %}
+                <div class="mb-2">
+                    <small class="text-muted">Date of Birth</small>
+                    <p class="mb-0"><strong>{{ request.user.date_of_birth|date:"F d, Y" }}</strong></p>
+                </div>
+                {% endif %}
+                
+                <div class="mb-3">
+                    <small class="text-muted">Member Since</small>
+                    <p class="mb-0"><strong>{{ request.user.date_joined|date:"F Y" }}</strong></p>
+                </div>
+                
+                <a href="{% url 'profile' %}" class="btn btn-outline-primary btn-sm w-100">
+                    <i class="bi bi-pencil"></i> Edit Profile
+                </a>
+            </div>
+
+            <!-- Health Tips -->
+            <div class="health-record-card">
+                <h6 class="mb-3"><i class="bi bi-lightbulb"></i> Health Tip of the Day</h6>
+                <p class="text-muted mb-0">
+                    <i class="bi bi-droplet text-info"></i>
+                    Drink at least 8 glasses of water daily to stay hydrated and maintain optimal health.
+                </p>
+            </div>
+
+            <!-- Emergency Contacts -->
+            <div class="health-record-card">
+                <h6 class="mb-3 text-danger"><i class="bi bi-exclamation-triangle"></i> Emergency Hotline</h6>
+                <a href="tel:911" class="btn btn-danger w-100 mb-2">
+                    <i class="bi bi-telephone-fill"></i> Call 911
+                </a>
+                <a href="tel:+639123456789" class="btn btn-outline-danger w-100">
+                    <i class="bi bi-hospital"></i> Call Clinic: +63 912 345 6789
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add any additional JavaScript here if needed
+</script>
+{% endblock %}

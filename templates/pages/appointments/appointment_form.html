@@ -1,0 +1,310 @@
+{% extends 'atomic/base.html' %}
+
+{% block title %}Book Appointment - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 0 0 30px 30px;
+    }
+    
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .form-card {
+        background: white;
+        border-radius: 20px;
+        padding: 3rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+    
+    .step-indicator {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 3rem;
+        position: relative;
+    }
+    
+    .step-indicator::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #e9ecef;
+        z-index: 0;
+    }
+    
+    .step {
+        text-align: center;
+        flex: 1;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #e9ecef;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .step.active .step-number {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .step.completed .step-number {
+        background: #28a745;
+        color: white;
+    }
+    
+    .doctor-select-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .doctor-select-card:hover {
+        border-color: #667eea;
+        transform: translateX(5px);
+    }
+    
+    .doctor-select-card.selected {
+        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.05);
+    }
+    
+    .time-slot {
+        padding: 0.8rem;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .time-slot:hover {
+        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.05);
+    }
+    
+    .time-slot.selected {
+        border-color: #667eea;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .time-slot.unavailable {
+        background: #f8f9fa;
+        color: #6c757d;
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <h1 class="mb-2"><i class="bi bi-calendar-plus"></i> Book Appointment</h1>
+        <p class="mb-0 opacity-75">Schedule your medical consultation</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="form-container">
+        <div class="form-card">
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <small>Select Doctor</small>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <small>Date & Time</small>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <small>Confirm</small>
+                </div>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <!-- Doctor Selection -->
+                <div class="mb-4">
+                    <h5 class="mb-3" style="color: #667eea;">
+                        <i class="bi bi-person-badge"></i> Select Doctor
+                    </h5>
+                    
+                    {% if form.doctor.errors %}
+                        <div class="alert alert-danger mb-3">
+                            {{ form.doctor.errors }}
+                        </div>
+                    {% endif %}
+                    
+                    {% for doctor in doctors %}
+                    <div class="doctor-select-card {% if form.doctor.value|stringformat:'s' == doctor.id|stringformat:'s' %}selected{% endif %}" onclick="selectDoctor({{ doctor.id }})">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                                    <i class="bi bi-person-badge"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">Dr. {{ doctor.user.get_full_name }}</h6>
+                                <p class="text-muted mb-1">{{ doctor.specialization }}</p>
+                                <small class="text-muted">Consultation Fee: ₱{{ doctor.consultation_fee }}</small>
+                            </div>
+                            <div>
+                                <input type="radio" name="doctor" value="{{ doctor.id }}" id="doctor_{{ doctor.id }}" {% if form.doctor.value|stringformat:'s' == doctor.id|stringformat:'s' %}checked{% endif %} required>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle"></i> No doctors available at the moment. Please contact the administrator.
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Date & Time Selection -->
+                <div class="mb-4">
+                    <h5 class="mb-3" style="color: #667eea;">
+                        <i class="bi bi-calendar3"></i> Select Date & Time
+                    </h5>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_date" class="form-label">Appointment Date <span class="text-danger">*</span></label>
+                                {{ form.date }}
+                                {% if form.date.errors %}
+                                    <div class="text-danger small">{{ form.date.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_time" class="form-label">Preferred Time <span class="text-danger">*</span></label>
+                                {{ form.time }}
+                                {% if form.time.errors %}
+                                    <div class="text-danger small">{{ form.time.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Time Slots (Optional) -->
+                    <div class="mt-3">
+                        <small class="text-muted">Or select from available time slots:</small>
+                        <div class="row g-2 mt-2">
+                            <div class="col-4 col-md-3">
+                                <div class="time-slot" onclick="selectTime('09:00')">09:00 AM</div>
+                            </div>
+                            <div class="col-4 col-md-3">
+                                <div class="time-slot" onclick="selectTime('10:00')">10:00 AM</div>
+                            </div>
+                            <div class="col-4 col-md-3">
+                                <div class="time-slot" onclick="selectTime('11:00')">11:00 AM</div>
+                            </div>
+                            <div class="col-4 col-md-3">
+                                <div class="time-slot" onclick="selectTime('14:00')">02:00 PM</div>
+                            </div>
+                            <div class="col-4 col-md-3">
+                                <div class="time-slot" onclick="selectTime('15:00')">03:00 PM</div>
+                            </div>
+                            <div class="col-4 col-md-3">
+                                <div class="time-slot" onclick="selectTime('16:00')">04:00 PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reason for Visit -->
+                <div class="mb-4">
+                    <h5 class="mb-3" style="color: #667eea;">
+                        <i class="bi bi-chat-dots"></i> Reason for Visit
+                    </h5>
+                    <div class="mb-3">
+                        <label for="id_reason" class="form-label">Please describe your symptoms or reason for visit <span class="text-danger">*</span></label>
+                        {{ form.reason }}
+                        {% if form.reason.errors %}
+                            <div class="text-danger small">{{ form.reason.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Display form errors if any -->
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Submit Buttons -->
+                <div class="d-flex gap-3 justify-content-end">
+                    <a href="{% url 'appointments:appointment_list' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+                        <i class="bi bi-check-circle"></i> Book Appointment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectDoctor(doctorId) {
+    // Remove selected class from all cards
+    document.querySelectorAll('.doctor-select-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    // Add selected class to clicked card
+    event.currentTarget.classList.add('selected');
+    
+    // Check the radio button
+    event.currentTarget.querySelector('input[type="radio"]').checked = true;
+}
+
+function selectTime(time) {
+    // Remove selected class from all time slots
+    document.querySelectorAll('.time-slot').forEach(slot => {
+        slot.classList.remove('selected');
+    });
+    
+    // Add selected class to clicked slot
+    if (!event.currentTarget.classList.contains('unavailable')) {
+        event.currentTarget.classList.add('selected');
+        
+        // Set the time input value
+        document.querySelector('input[name="time"]').value = time;
+    }
+}
+</script>
+{% endblock %}

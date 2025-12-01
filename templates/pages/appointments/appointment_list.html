@@ -1,0 +1,226 @@
+{% extends 'atomic/base.html' %}
+
+{% block title %}My Appointments - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 0 0 30px 30px;
+    }
+
+    .appointment-card {
+        background: white;
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        border-left: 5px solid;
+    }
+
+        .appointment-card.pending {
+            border-color: #ffc107;
+        }
+
+        .appointment-card.confirmed {
+            border-color: #28a745;
+        }
+
+        .appointment-card.cancelled {
+            border-color: #dc3545;
+        }
+
+        .appointment-card.completed {
+            border-color: #17a2b8;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+    .appointment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1rem;
+    }
+
+    .doctor-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .doctor-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .appointment-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .detail-item i {
+        color: #667eea;
+        margin-right: 0.5rem;
+    }
+
+    .filter-tabs {
+        background: white;
+        border-radius: 15px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+        .filter-tabs .btn {
+            border-radius: 20px;
+            margin: 0 0.25rem;
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 20px;
+    }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: #dee2e6;
+            margin-bottom: 1.5rem;
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="mb-2"><i class="bi bi-calendar-check"></i> My Appointments</h1>
+                <p class="mb-0 opacity-75">View and manage your medical appointments</p>
+            </div>
+            <a href="{% url 'appointments:appointment_create' %}" class="btn btn-light btn-lg">
+                <i class="bi bi-plus-circle"></i> Book Appointment
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+        <div class="d-flex flex-wrap justify-content-center">
+            <a href="{% url 'appointments:appointment_list' %}" class="btn {% if not current_status %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <i class="bi bi-calendar3"></i> All Appointments
+            </a>
+            <a href="{% url 'appointments:appointment_list' %}?status=pending" class="btn {% if current_status == 'pending' %}btn-warning{% else %}btn-outline-warning{% endif %}">
+                <i class="bi bi-clock"></i> Pending
+            </a>
+            <a href="{% url 'appointments:appointment_list' %}?status=confirmed" class="btn {% if current_status == 'confirmed' %}btn-success{% else %}btn-outline-success{% endif %}">
+                <i class="bi bi-check-circle"></i> Confirmed
+            </a>
+            <a href="{% url 'appointments:appointment_list' %}?status=completed" class="btn {% if current_status == 'completed' %}btn-info{% else %}btn-outline-info{% endif %}">
+                <i class="bi bi-check-all"></i> Completed
+            </a>
+            <a href="{% url 'appointments:appointment_list' %}?status=cancelled" class="btn {% if current_status == 'cancelled' %}btn-danger{% else %}btn-outline-danger{% endif %}">
+                <i class="bi bi-x-circle"></i> Cancelled
+            </a>
+        </div>
+    </div>
+
+    <!-- Appointments List -->
+    {% if appointments %}
+    {% for appointment in appointments %}
+    <div class="appointment-card {{ appointment.status }}">
+        <div class="appointment-header">
+            <div class="doctor-info">
+                <div class="doctor-avatar">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <div>
+                    <h5 class="mb-1">Dr. {{ appointment.doctor.user.get_full_name }}</h5>
+                    <p class="text-muted mb-0">{{ appointment.doctor.specialization }}</p>
+                </div>
+            </div>
+            <div>
+                {% include 'atomic/atoms/badge.html' with status=appointment.status text=appointment.get_status_display %}
+            </div>
+        </div>
+
+        {% if appointment.reason %}
+        <div class="mb-2">
+            <strong>Reason:</strong> {{ appointment.reason }}
+        </div>
+        {% endif %}
+
+        <div class="appointment-details">
+            <div class="detail-item">
+                <i class="bi bi-calendar3"></i>
+                <strong>Date:</strong> {{ appointment.date|date:"F d, Y" }}
+            </div>
+            <div class="detail-item">
+                <i class="bi bi-clock"></i>
+                <strong>Time:</strong> {{ appointment.time|time:"h:i A" }}
+            </div>
+            <div class="detail-item">
+                <i class="bi bi-calendar-check"></i>
+                <strong>Status:</strong> {{ appointment.get_status_display }}
+            </div>
+        </div>
+
+        <div class="mt-3 d-flex gap-2">
+            <a href="{% url 'appointments:appointment_detail' appointment.id %}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-eye"></i> View Details
+            </a>
+            {% if appointment.status == 'pending' or appointment.status == 'confirmed' %}
+            <a href="{% url 'appointments:appointment_delete' appointment.id %}" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-x-circle"></i> Cancel
+            </a>
+            <a href="{% url 'appointments:appointment_edit' appointment.id %}" class="btn btn-sm btn-outline-warning">
+                <i class="bi bi-pencil"></i> Reschedule
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <!-- Empty State -->
+    <div class="empty-state">
+        <i class="bi bi-calendar-x"></i>
+        {% if current_status %}
+        <h4 class="text-muted">No {{ current_status|title }} Appointments</h4>
+        <p class="text-muted mb-4">You don't have any {{ current_status }} appointments at the moment.</p>
+        <a href="{% url 'appointments:appointment_list' %}" class="btn btn-outline-primary me-2">
+            <i class="bi bi-calendar3"></i> View All Appointments
+        </a>
+        {% else %}
+        <h4 class="text-muted">No Appointments Yet</h4>
+        <p class="text-muted mb-4">You haven't booked any appointments. Start by browsing our doctors.</p>
+        {% endif %}
+        <a href="{% url 'doctors:doctor_list' %}" class="btn btn-primary">
+            <i class="bi bi-search"></i> Find Doctors
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,749 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER\\DometitaProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\atomic\\organisms\\header.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\atomic\\organisms\\header.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\atomic\\base.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\atomic\\base.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\admin\\admin_dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\admin\\admin_dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\static\\css\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:static\\css\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\atomic\\organisms\\messages.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\atomic\\organisms\\messages.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\atomic\\organisms\\footer.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\atomic\\organisms\\footer.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\atomic\\molecules\\stat_card.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\atomic\\molecules\\stat_card.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\atomic\\molecules\\form_field.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\atomic\\molecules\\form_field.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\atomic\\atoms\\input.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\atomic\\atoms\\input.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\atomic\\atoms\\buttons.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\atomic\\atoms\\buttons.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\atomic\\atoms\\badge.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\atomic\\atoms\\badge.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_patients.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\doctors\\doctor_patients.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_appointments.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\doctors\\doctor_appointments.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\doctors\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:doctors\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\appointments\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:appointments\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\appointments\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:appointments\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\doctors\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:doctors\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\accounts\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:accounts\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\doctors\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:doctors\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\accounts\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:accounts\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\doctors\\doctor_list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\medicalapp\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:medicalapp\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_dashboard.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\doctors\\doctor_dashboard.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\accounts\\admin.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:accounts\\admin.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\doctors\\forms.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:doctors\\forms.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\doctors\\admin.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:doctors\\admin.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\accounts\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:accounts\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\registration\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\registration\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\accounts\\forms.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:accounts\\forms.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\appointments\\appointment_list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\appointments\\appointment_list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\patient\\patient_dashboard.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\patient\\patient_dashboard.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\appointments\\appointment_detail.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\appointments\\appointment_detail.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_detail.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\doctors\\doctor_detail.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\medicalapp\\settings.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:medicalapp\\settings.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\profile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\profile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\home.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\home.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\registration\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\registration\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\notifications\\notification_list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\notifications\\notification_list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\templates\\pages\\appointments\\appointment_form.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\pages\\appointments\\appointment_form.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\appointments\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:appointments\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\appointments\\forms.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:appointments\\forms.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\notifications\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:notifications\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\notifications\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:notifications\\urls.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\notifications\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:notifications\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\DometitaProject\\accounts\\context_processors.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:accounts\\context_processors.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "stat_card.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\molecules\\stat_card.html",
+              "RelativeDocumentMoniker": "templates\\atomic\\molecules\\stat_card.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\molecules\\stat_card.html",
+              "RelativeToolTip": "templates\\atomic\\molecules\\stat_card.html",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAYwFIAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:39:23.839Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "footer.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\organisms\\footer.html",
+              "RelativeDocumentMoniker": "templates\\atomic\\organisms\\footer.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\organisms\\footer.html",
+              "RelativeToolTip": "templates\\atomic\\organisms\\footer.html",
+              "ViewState": "AgIAADAAAAAAAAAAAAAnwD8AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:40:10.692Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "header.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\organisms\\header.html",
+              "RelativeDocumentMoniker": "templates\\atomic\\organisms\\header.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\organisms\\header.html",
+              "RelativeToolTip": "templates\\atomic\\organisms\\header.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:39:58.909Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "messages.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\organisms\\messages.html",
+              "RelativeDocumentMoniker": "templates\\atomic\\organisms\\messages.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\organisms\\messages.html",
+              "RelativeToolTip": "templates\\atomic\\organisms\\messages.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:40:29.328Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "base.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\base.html",
+              "RelativeDocumentMoniker": "templates\\atomic\\base.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\base.html",
+              "RelativeToolTip": "templates\\atomic\\base.html",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAYwFUAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T11:09:45.746Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "style.css",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\static\\css\\style.css",
+              "RelativeDocumentMoniker": "static\\css\\style.css",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\static\\css\\style.css",
+              "RelativeToolTip": "static\\css\\style.css",
+              "ViewState": "AgIAAF8BAAAAAAAAAAAuwHsBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-11-12T11:11:40.304Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "admin_dashboard.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\admin\\admin_dashboard.html",
+              "RelativeDocumentMoniker": "templates\\pages\\admin\\admin_dashboard.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\admin\\admin_dashboard.html",
+              "RelativeToolTip": "templates\\pages\\admin\\admin_dashboard.html",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAOkAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:41:55.348Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "form_field.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\molecules\\form_field.html",
+              "RelativeDocumentMoniker": "templates\\atomic\\molecules\\form_field.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\molecules\\form_field.html",
+              "RelativeToolTip": "templates\\atomic\\molecules\\form_field.html",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAABwAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:38:46.527Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "input.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\atoms\\input.html",
+              "RelativeDocumentMoniker": "templates\\atomic\\atoms\\input.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\atoms\\input.html",
+              "RelativeToolTip": "templates\\atomic\\atoms\\input.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:37:58.791Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "buttons.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\atoms\\buttons.html",
+              "RelativeDocumentMoniker": "templates\\atomic\\atoms\\buttons.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\atoms\\buttons.html",
+              "RelativeToolTip": "templates\\atomic\\atoms\\buttons.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:37:53.701Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "badge.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\atoms\\badge.html",
+              "RelativeDocumentMoniker": "templates\\atomic\\atoms\\badge.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\atomic\\atoms\\badge.html",
+              "RelativeToolTip": "templates\\atomic\\atoms\\badge.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:38:19.371Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "doctor_patients.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_patients.html",
+              "RelativeDocumentMoniker": "templates\\pages\\doctors\\doctor_patients.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_patients.html",
+              "RelativeToolTip": "templates\\pages\\doctors\\doctor_patients.html",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAqwEMAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T17:46:28.765Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "doctor_list.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_list.html",
+              "RelativeDocumentMoniker": "templates\\pages\\doctors\\doctor_list.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_list.html",
+              "RelativeToolTip": "templates\\pages\\doctors\\doctor_list.html",
+              "ViewState": "AgIAAMgAAAAAAAAAAAAuwNcAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:41:31.69Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "urls.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\medicalapp\\urls.py",
+              "RelativeDocumentMoniker": "medicalapp\\urls.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\medicalapp\\urls.py",
+              "RelativeToolTip": "medicalapp\\urls.py",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAuwBgAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:14:38.398Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "views.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\accounts\\views.py",
+              "RelativeDocumentMoniker": "accounts\\views.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\accounts\\views.py",
+              "RelativeToolTip": "accounts\\views.py",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAA8AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:11:10.372Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "urls.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\doctors\\urls.py",
+              "RelativeDocumentMoniker": "doctors\\urls.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\doctors\\urls.py",
+              "RelativeToolTip": "doctors\\urls.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:18:04.029Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "views.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\doctors\\views.py",
+              "RelativeDocumentMoniker": "doctors\\views.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\doctors\\views.py",
+              "RelativeToolTip": "doctors\\views.py",
+              "ViewState": "AgIAALwAAAAAAAAAAAAQwNcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:41:11.165Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "doctor_appointments.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_appointments.html",
+              "RelativeDocumentMoniker": "templates\\pages\\doctors\\doctor_appointments.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_appointments.html",
+              "RelativeToolTip": "templates\\pages\\doctors\\doctor_appointments.html",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAqwIYAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T17:46:01.41Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "urls.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\accounts\\urls.py",
+              "RelativeDocumentMoniker": "accounts\\urls.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\accounts\\urls.py",
+              "RelativeToolTip": "accounts\\urls.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAwA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:16:36.958Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "models.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\doctors\\models.py",
+              "RelativeDocumentMoniker": "doctors\\models.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\doctors\\models.py",
+              "RelativeToolTip": "doctors\\models.py",
+              "ViewState": "AgIAADcAAAAAAAAAAAAQwEYAAAB4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:33:30.562Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "models.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\appointments\\models.py",
+              "RelativeDocumentMoniker": "appointments\\models.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\appointments\\models.py",
+              "RelativeToolTip": "appointments\\models.py",
+              "ViewState": "AgIAABQAAAAAAAAAAAAQwCQAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:52:44.006Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "views.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\appointments\\views.py",
+              "RelativeDocumentMoniker": "appointments\\views.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\appointments\\views.py",
+              "RelativeToolTip": "appointments\\views.py",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAUwGUAAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:41:00.575Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "doctor_dashboard.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_dashboard.html",
+              "RelativeDocumentMoniker": "templates\\pages\\doctors\\doctor_dashboard.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_dashboard.html",
+              "RelativeToolTip": "templates\\pages\\doctors\\doctor_dashboard.html",
+              "ViewState": "AgIAANoAAAAAAAAAAAAcwAEBAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T16:51:57.889Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "admin.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\accounts\\admin.py",
+              "RelativeDocumentMoniker": "accounts\\admin.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\accounts\\admin.py",
+              "RelativeToolTip": "accounts\\admin.py",
+              "ViewState": "AgIAACEAAAAAAAAAAAAEwCkAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T16:01:43.183Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "admin.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\doctors\\admin.py",
+              "RelativeDocumentMoniker": "doctors\\admin.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\doctors\\admin.py",
+              "RelativeToolTip": "doctors\\admin.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T16:11:12.6Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "forms.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\accounts\\forms.py",
+              "RelativeDocumentMoniker": "accounts\\forms.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\accounts\\forms.py",
+              "RelativeToolTip": "accounts\\forms.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:16:58.115Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "forms.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\doctors\\forms.py",
+              "RelativeDocumentMoniker": "doctors\\forms.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\doctors\\forms.py",
+              "RelativeToolTip": "doctors\\forms.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:18:23.055Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "appointment_list.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\appointments\\appointment_list.html",
+              "RelativeDocumentMoniker": "templates\\pages\\appointments\\appointment_list.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\appointments\\appointment_list.html",
+              "RelativeToolTip": "templates\\pages\\appointments\\appointment_list.html",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAYwHkAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:40:54.531Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "patient_dashboard.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\patient\\patient_dashboard.html",
+              "RelativeDocumentMoniker": "templates\\pages\\patient\\patient_dashboard.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\patient\\patient_dashboard.html",
+              "RelativeToolTip": "templates\\pages\\patient\\patient_dashboard.html",
+              "ViewState": "AgIAAJIAAAAAAAAAAAAnwKQAAAB9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T13:09:02.966Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "register.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\registration\\register.html",
+              "RelativeDocumentMoniker": "templates\\pages\\registration\\register.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\registration\\register.html",
+              "RelativeToolTip": "templates\\pages\\registration\\register.html",
+              "ViewState": "AgIAANUAAAAAAAAAAAAYwO0AAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T11:13:19.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "models.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\accounts\\models.py",
+              "RelativeDocumentMoniker": "accounts\\models.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\accounts\\models.py",
+              "RelativeToolTip": "accounts\\models.py",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAiwHkAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:33:09.192Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "appointment_detail.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\appointments\\appointment_detail.html",
+              "RelativeDocumentMoniker": "templates\\pages\\appointments\\appointment_detail.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\appointments\\appointment_detail.html",
+              "RelativeToolTip": "templates\\pages\\appointments\\appointment_detail.html",
+              "ViewState": "AgIAANMAAAAAAAAAAAAnwOgAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:41:20.039Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "doctor_detail.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_detail.html",
+              "RelativeDocumentMoniker": "templates\\pages\\doctors\\doctor_detail.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\doctors\\doctor_detail.html",
+              "RelativeToolTip": "templates\\pages\\doctors\\doctor_detail.html",
+              "ViewState": "AgIAAJ4BAAAAAAAAAAAnwLABAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:41:41.104Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "settings.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\medicalapp\\settings.py",
+              "RelativeDocumentMoniker": "medicalapp\\settings.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\medicalapp\\settings.py",
+              "RelativeToolTip": "medicalapp\\settings.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:06:58.933Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "profile.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\profile.html",
+              "RelativeDocumentMoniker": "templates\\pages\\profile.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\profile.html",
+              "RelativeToolTip": "templates\\pages\\profile.html",
+              "ViewState": "AgIAAOMAAAAAAAAAAAAYwPYAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:42:51.958Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "home.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\home.html",
+              "RelativeDocumentMoniker": "templates\\pages\\home.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\home.html",
+              "RelativeToolTip": "templates\\pages\\home.html",
+              "ViewState": "AgIAAAkBAAAAAAAAAAAnwBsBAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:42:35.224Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "login.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\registration\\login.html",
+              "RelativeDocumentMoniker": "templates\\pages\\registration\\login.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\registration\\login.html",
+              "RelativeToolTip": "templates\\pages\\registration\\login.html",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAqwG4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T11:10:41.602Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "notification_list.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\notifications\\notification_list.html",
+              "RelativeDocumentMoniker": "templates\\pages\\notifications\\notification_list.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\notifications\\notification_list.html",
+              "RelativeToolTip": "templates\\pages\\notifications\\notification_list.html",
+              "ViewState": "AgIAAPcAAAAAAAAAAAAqwP8AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:42:05.267Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "appointment_form.html",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\appointments\\appointment_form.html",
+              "RelativeDocumentMoniker": "templates\\pages\\appointments\\appointment_form.html",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\templates\\pages\\appointments\\appointment_form.html",
+              "RelativeToolTip": "templates\\pages\\appointments\\appointment_form.html",
+              "ViewState": "AgIAANoAAAAAAAAAAAAnwOwAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-12T12:40:58.581Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "urls.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\appointments\\urls.py",
+              "RelativeDocumentMoniker": "appointments\\urls.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\appointments\\urls.py",
+              "RelativeToolTip": "appointments\\urls.py",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:17:17.205Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "forms.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\appointments\\forms.py",
+              "RelativeDocumentMoniker": "appointments\\forms.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\appointments\\forms.py",
+              "RelativeToolTip": "appointments\\forms.py",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAAwFwAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:17:39.068Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "models.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\notifications\\models.py",
+              "RelativeDocumentMoniker": "notifications\\models.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\notifications\\models.py",
+              "RelativeToolTip": "notifications\\models.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:53:10.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "urls.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\notifications\\urls.py",
+              "RelativeDocumentMoniker": "notifications\\urls.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\notifications\\urls.py",
+              "RelativeToolTip": "notifications\\urls.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:18:57.539Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "views.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\notifications\\views.py",
+              "RelativeDocumentMoniker": "notifications\\views.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\notifications\\views.py",
+              "RelativeToolTip": "notifications\\views.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:19:37.263Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "context_processors.py",
+              "DocumentMoniker": "C:\\Users\\USER\\DometitaProject\\accounts\\context_processors.py",
+              "RelativeDocumentMoniker": "accounts\\context_processors.py",
+              "ToolTip": "C:\\Users\\USER\\DometitaProject\\accounts\\context_processors.py",
+              "RelativeToolTip": "accounts\\context_processors.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-12T11:21:09.571Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

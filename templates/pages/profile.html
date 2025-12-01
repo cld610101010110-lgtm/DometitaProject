@@ -1,0 +1,486 @@
+{% extends 'atomic/base.html' %}
+
+{% block title %}My Profile - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 0 0 30px 30px;
+    }
+
+    .profile-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem;
+        text-align: center;
+        color: white;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: white;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: #667eea;
+        border: 5px solid white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .profile-role {
+        background: rgba(255,255,255,0.2);
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+
+    .profile-body {
+        padding: 2.5rem;
+    }
+
+    .info-section {
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+        .info-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+    .section-title {
+        color: #667eea;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .info-row {
+        display: flex;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        font-weight: 600;
+        color: #6c757d;
+        width: 150px;
+        flex-shrink: 0;
+    }
+
+    .info-value {
+        color: #2c3e50;
+        flex: 1;
+    }
+
+    .edit-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .edit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <h1 class="mb-2"><i class="bi bi-person-circle"></i> My Profile</h1>
+        <p class="mb-0 opacity-75">Manage your personal information and settings</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="profile-container">
+        <div class="profile-card">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="Profile photo" class="img-fluid rounded-circle" style="width: 110px; height: 110px; object-fit: cover;">
+                    {% else %}
+                    <i class="bi bi-person"></i>
+                    {% endif %}
+                </div>
+                <h3 class="mt-3 mb-1">{{ user.get_full_name|default:user.email }}</h3>
+                <p class="opacity-75">{{ user.email }}</p>
+                <span class="profile-role">
+                    <i class="bi bi-{% if user.role == 'patient' %}person{% elif user.role == 'doctor' %}person-badge{% else %}shield-check{% endif %}"></i>
+                    {{ user.get_role_display }}
+                </span>
+            </div>
+
+            <!-- Profile Body -->
+            <div class="profile-body">
+                {% if not edit_mode %}
+                <!-- View Mode -->
+                <div class="info-section">
+                    <h5 class="section-title">
+                        <i class="bi bi-person-vcard"></i>
+                        Personal Information
+                    </h5>
+
+                    <div class="info-row">
+                        <div class="info-label">First Name:</div>
+                        <div class="info-value">{{ user.first_name|default:"Not provided" }}</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Last Name:</div>
+                        <div class="info-value">{{ user.last_name|default:"Not provided" }}</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Email:</div>
+                        <div class="info-value">{{ user.email }}</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Phone:</div>
+                        <div class="info-value">{{ user.phone_number|default:"Not provided" }}</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Date of Birth:</div>
+                        <div class="info-value">{{ user.date_of_birth|date:"F d, Y"|default:"Not provided" }}</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Gender:</div>
+                        <div class="info-value">{{ user.get_gender_display|default:"Not provided" }}</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Address:</div>
+                        <div class="info-value">{{ user.address|default:"Not provided" }}</div>
+                    </div>
+                </div>
+
+                {% if user.role == 'patient' %}
+                <div class="info-section">
+                    <h5 class="section-title">
+                        <i class="bi bi-clipboard-data"></i>
+                        Body Metrics & Health
+                    </h5>
+
+                    {% if user.height and user.weight %}
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <div class="info-row">
+                                <div class="info-label">Height:</div>
+                                <div class="info-value">{{ user.height }} cm</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-row">
+                                <div class="info-label">Weight:</div>
+                                <div class="info-value">{{ user.weight }} kg</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-row">
+                                <div class="info-label">BMI:</div>
+                                <div class="info-value">
+                                    <strong>{{ bmi|floatformat:1 }}</strong>
+                                    <small class="text-muted ms-2">({{ bmi_category }})</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> Add your height and weight to calculate your BMI automatically.
+                    </div>
+                    {% endif %}
+                </div>
+                {% elif user.role == 'doctor' %}
+                <div class="info-section">
+                    <h5 class="section-title">
+                        <i class="bi bi-currency-dollar"></i>
+                        Professional Information
+                    </h5>
+                    {% if user.doctor %}
+                    <div class="info-row">
+                        <div class="info-label">Specialization:</div>
+                        <div class="info-value">{{ user.doctor.specialization }}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Consultation Fee:</div>
+                        <div class="info-value">₱{{ user.doctor.consultation_fee }}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">License Number:</div>
+                        <div class="info-value">{{ user.doctor.license_number }}</div>
+                    </div>
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle"></i> 
+                        <small>Consultation fee can be updated by administrators. Contact admin for fee changes.</small>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <div class="info-section">
+                    <h5 class="section-title">
+                        <i class="bi bi-gear"></i>
+                        Account Information
+                    </h5>
+
+                    <div class="info-row">
+                        <div class="info-label">Role:</div>
+                        <div class="info-value">
+                            {% include 'atomic/atoms/badge.html' with status=user.role text=user.get_role_display %}
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Member Since:</div>
+                        <div class="info-value">{{ user.date_joined|date:"F d, Y" }}</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Last Login:</div>
+                        <div class="info-value">{{ user.last_login|date:"F d, Y g:i A"|default:"Never" }}</div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="?edit=true" class="btn edit-btn">
+                        <i class="bi bi-pencil"></i> Edit Profile
+                    </a>
+                </div>
+                {% else %}
+                <!-- Edit Mode -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="info-section">
+                        <h5 class="section-title">
+                            <i class="bi bi-person-vcard"></i>
+                            Edit Personal Information
+                        </h5>
+
+                        <div class="mb-4">
+                            <label for="id_profile_picture" class="form-label">Profile Photo</label>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="profile-avatar" style="width:80px;height:80px;">
+                                    <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% endif %}"
+                                         alt="Current photo"
+                                         class="img-fluid rounded-circle"
+                                         style="width:70px;height:70px;object-fit:cover; {% if not user.profile_picture %}display:none;{% endif %}"
+                                         data-profile-preview>
+                                    <i class="bi bi-person" {% if user.profile_picture %}style="display:none;"{% endif %} data-profile-preview-placeholder></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    {{ form.profile_picture }}
+                                    {% if form.profile_picture.errors %}
+                                    <div class="text-danger small">{{ form.profile_picture.errors }}</div>
+                                    {% endif %}
+                                    <small class="text-muted d-block mt-1">Upload a square image (JPG or PNG, max 5MB) for best results.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_first_name" class="form-label">First Name</label>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                        <div class="text-danger small">{{ form.first_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_last_name" class="form-label">Last Name</label>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                        <div class="text-danger small">{{ form.last_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_phone_number" class="form-label">Phone Number</label>
+                                    {{ form.phone_number }}
+                                    {% if form.phone_number.errors %}
+                                        <div class="text-danger small">{{ form.phone_number.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_date_of_birth" class="form-label">Date of Birth</label>
+                                    {{ form.date_of_birth }}
+                                    {% if form.date_of_birth.errors %}
+                                        <div class="text-danger small">{{ form.date_of_birth.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_gender" class="form-label">Gender</label>
+                                    {{ form.gender }}
+                                    {% if form.gender.errors %}
+                                        <div class="text-danger small">{{ form.gender.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="id_address" class="form-label">Address</label>
+                                    {{ form.address }}
+                                    {% if form.address.errors %}
+                                        <div class="text-danger small">{{ form.address.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if user.role == 'patient' %}
+                    <div class="info-section">
+                        <h5 class="section-title">
+                            <i class="bi bi-clipboard-data"></i>
+                            Body Metrics (for BMI calculation)
+                        </h5>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_height" class="form-label">
+                                        Height (cm) 
+                                        {% if form.height.help_text %}
+                                        <small class="text-muted">- {{ form.height.help_text }}</small>
+                                        {% endif %}
+                                    </label>
+                                    {{ form.height }}
+                                    {% if form.height.errors %}
+                                        <div class="text-danger small">{{ form.height.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_weight" class="form-label">
+                                        Weight (kg)
+                                        {% if form.weight.help_text %}
+                                        <small class="text-muted">- {{ form.weight.help_text }}</small>
+                                        {% endif %}
+                                    </label>
+                                    {{ form.weight }}
+                                    {% if form.weight.errors %}
+                                        <div class="text-danger small">{{ form.weight.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if user.height and user.weight %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-calculator"></i> 
+                            <strong>Current BMI:</strong> {{ bmi|floatformat:1 }} ({{ bmi_category }})
+                            <br>
+                            <small>BMI will be automatically recalculated when you update your height or weight.</small>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-warning">
+                            <i class="bi bi-info-circle"></i> 
+                            Add your height and weight to automatically calculate your BMI.
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex gap-3 justify-content-center mt-4">
+                        <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn edit-btn">
+                            <i class="bi bi-check-circle"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const fileInput = document.getElementById('id_profile_picture');
+    if (fileInput) {
+        fileInput.addEventListener('change', function (event) {
+            const previewImg = document.querySelector('[data-profile-preview]');
+            const placeholder = document.querySelector('[data-profile-preview-placeholder]');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    if (previewImg) {
+                        previewImg.style.display = 'block';
+                        previewImg.src = e.target.result;
+                    }
+                    if (placeholder) {
+                        placeholder.style.display = 'none';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+</script>
+{% endblock %}

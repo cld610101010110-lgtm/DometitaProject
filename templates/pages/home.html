@@ -1,0 +1,277 @@
+{% extends 'atomic/base.html' %}
+
+{% block title %}Home - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 6rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        animation: fadeInUp 1s ease;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+        animation: fadeInUp 1.2s ease;
+    }
+
+    .hero-buttons {
+        animation: fadeInUp 1.4s ease;
+    }
+
+    .hero-image {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        height: 100%;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .stats-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4rem 0;
+        margin: 4rem 0;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .cta-section {
+        background: white;
+        border-radius: 30px;
+        padding: 4rem;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        margin: 4rem 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 hero-content">
+                <h1 class="hero-title">Your Health, Our Priority</h1>
+                <p class="hero-subtitle">
+                    Book medical appointments with ease. Connect with trusted doctors and manage your healthcare journey efficiently.
+                </p>
+                <div class="hero-buttons">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'doctors:doctor_list' %}" class="btn btn-light btn-lg me-3">
+                        <i class="bi bi-search"></i> Find Doctors
+                    </a>
+                    <a href="{% url 'appointments:appointment_list' %}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-calendar-check"></i> My Appointments
+                    </a>
+                    {% else %}
+                    <a href="{% url 'register' %}" class="btn btn-light btn-lg me-3">
+                        <i class="bi bi-person-plus"></i> Get Started
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="hero-image">
+                    <i class="bi bi-hospital" style="font-size: 15rem; opacity: 0.9;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container mt-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold" style="color: #667eea;">Why Choose MedLynk?</h2>
+            <p class="text-muted">Experience healthcare management like never before</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <h4 class="mb-3">Easy Booking</h4>
+                    <p class="text-muted">Schedule appointments with your preferred doctors in just a few clicks. No more long waiting times.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                    <h4 class="mb-3">Verified Doctors</h4>
+                    <p class="text-muted">Connect with certified and experienced healthcare professionals you can trust.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <h4 class="mb-3">24/7 Access</h4>
+                    <p class="text-muted">Manage your appointments, view medical history, and get updates anytime, anywhere.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h4 class="mb-3">Secure & Private</h4>
+                    <p class="text-muted">Your medical information is protected with enterprise-level security.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-bell"></i>
+                    </div>
+                    <h4 class="mb-3">Smart Reminders</h4>
+                    <p class="text-muted">Never miss an appointment with automated notifications and reminders.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-file-medical"></i>
+                    </div>
+                    <h4 class="mb-3">Digital Records</h4>
+                    <p class="text-muted">Access your complete medical history and appointment records digitally.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Health Quote Section -->
+<section class="stats-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 4rem 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="stat-item" style="color: white;">
+                    <i class="bi bi-quote" style="font-size: 3rem; opacity: 0.7; margin-bottom: 1rem;"></i>
+                    <h3 class="mb-3" style="color: white; font-style: italic; font-weight: 300;">
+                        "The greatest wealth is health. Take care of your body, it's the only place you have to live."
+                    </h3>
+                    <p class="mb-0" style="color: rgba(255,255,255,0.9); font-size: 1.1rem;">
+                        Your health is your most valuable asset. We're here to help you maintain it.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="container">
+    <div class="cta-section">
+        <h2 class="fw-bold mb-3" style="color: #667eea;">Ready to Get Started?</h2>
+        <p class="text-muted mb-4">Join thousands of patients managing their health better</p>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'register' %}" class="btn btn-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+            <i class="bi bi-person-plus"></i> Create Free Account
+        </a>
+        {% else %}
+        <a href="{% url 'doctors:doctor_list' %}" class="btn btn-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+            <i class="bi bi-search"></i> Browse Doctors
+        </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

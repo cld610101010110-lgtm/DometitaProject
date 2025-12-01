@@ -1,0 +1,16 @@
+{% comment %}
+Usage: {% include 'atomic/atoms/badge.html' with status='pending' text='Pending' %}
+Statuses: pending (warning), confirmed (success), cancelled (danger), completed (info)
+{% endcomment %}
+
+{% if status == 'pending' %}
+<span class="badge bg-warning text-dark">{{ text|default:'Pending' }}</span>
+{% elif status == 'confirmed' %}
+<span class="badge bg-success">{{ text|default:'Confirmed' }}</span>
+{% elif status == 'cancelled' %}
+<span class="badge bg-danger">{{ text|default:'Cancelled' }}</span>
+{% elif status == 'completed' %}
+<span class="badge bg-info">{{ text|default:'Completed' }}</span>
+{% else %}
+<span class="badge bg-{{ type|default:'secondary' }}">{{ text }}</span>
+{% endif %}

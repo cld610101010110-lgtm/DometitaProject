@@ -1,0 +1,271 @@
+{% extends 'atomic/base.html' %}
+
+{% block title %}Register - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 0;
+    }
+
+    .register-card {
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        overflow: hidden;
+        max-width: 1000px;
+        width: 100%;
+    }
+
+    .register-left {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+        .register-left i {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+    .register-right {
+        padding: 3rem;
+    }
+
+    .role-selection {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .role-card {
+        flex: 1;
+        padding: 1.5rem;
+        border: 3px solid #e9ecef;
+        border-radius: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .role-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+        }
+
+        .role-card.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .role-card i {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+    .btn-register {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.8rem;
+        border: none;
+        border-radius: 25px;
+        font-weight: 600;
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="container">
+        <div class="register-card">
+            <div class="row g-0">
+                <!-- Left Side -->
+                <div class="col-lg-4 register-left">
+                    <i class="bi bi-person-plus"></i>
+                    <h2 class="mb-3">Join MedLynk</h2>
+                    <p class="mb-4">Create your account and start managing your healthcare efficiently</p>
+
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <i class="bi bi-check-circle me-2"></i> Easy appointment booking
+                        </div>
+                        <div class="mb-3">
+                            <i class="bi bi-check-circle me-2"></i> Access to verified doctors
+                        </div>
+                        <div class="mb-3">
+                            <i class="bi bi-check-circle me-2"></i> Secure medical records
+                        </div>
+                        <div class="mb-3">
+                            <i class="bi bi-check-circle me-2"></i> 24/7 online access
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side - Form -->
+                <div class="col-lg-8 register-right">
+                    <h3 class="mb-4 fw-bold" style="color: #667eea;">
+                        <i class="bi bi-person-plus"></i> Create Account
+                    </h3>
+
+                    <form method="post" id="registerForm">
+                        {% csrf_token %}
+
+                        <!-- Role Selection -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">I am a <span class="text-danger">*</span></label>
+                            <div class="role-selection">
+                                <div class="role-card active">
+                                    <i class="bi bi-person"></i>
+                                    <h6>Patient</h6>
+                                    <small class="text-muted">Book appointments</small>
+                                </div>
+                            </div>
+                            <input type="hidden" name="role" id="roleInput" value="patient" required>
+                            <div class="alert alert-info mt-2">
+                                <i class="bi bi-info-circle"></i> 
+                                <small>Doctor accounts are created by administrators. If you are a doctor, please contact the administrator.</small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                {% include 'atomic/molecules/form_field.html' with label='First Name' name='first_name' placeholder='Enter first name' required=True %}
+                            </div>
+                            <div class="col-md-6">
+                                {% include 'atomic/molecules/form_field.html' with label='Last Name' name='last_name' placeholder='Enter last name' required=True %}
+                            </div>
+                        </div>
+
+                        {% include 'atomic/molecules/form_field.html' with label='Email Address' name='email' type='email' placeholder='Enter your email' required=True %}
+
+                        {% include 'atomic/molecules/form_field.html' with label='Phone Number' name='phone_number' type='tel' placeholder='+63 912 345 6789' %}
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_password1" class="form-label">Password <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="password1" id="id_password1" placeholder="Create password" required>
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('id_password1', 'togglePassword1')">
+                                            <i class="bi bi-eye" id="togglePassword1Icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_password2" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="password2" id="id_password2" placeholder="Confirm password" required>
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('id_password2', 'togglePassword2')">
+                                            <i class="bi bi-eye" id="togglePassword2Icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#" style="color: #667eea;">Terms & Conditions</a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-register mb-3">
+                            <i class="bi bi-person-plus"></i> Create Account
+                        </button>
+
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                Already have an account?
+                                <a href="{% url 'login' %}" style="color: #667eea; text-decoration: none; font-weight: 600;">Sign In</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Role selection removed - only patients can register
+
+    // Form validation
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+        const role = document.getElementById('roleInput').value;
+        const password1 = document.querySelector('input[name="password1"]').value;
+        const password2 = document.querySelector('input[name="password2"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        const firstName = document.querySelector('input[name="first_name"]').value;
+        const lastName = document.querySelector('input[name="last_name"]').value;
+        const termsChecked = document.getElementById('terms').checked;
+
+        // Check if role is selected
+        if (!role) {
+            e.preventDefault();
+            alert('Please select your role (Patient or Doctor)');
+            return false;
+        }
+
+        // Check if all required fields are filled
+        if (!firstName || !lastName || !email) {
+            e.preventDefault();
+            alert('Please fill in all required fields');
+            return false;
+        }
+
+        // Check if passwords match
+        if (password1 !== password2) {
+            e.preventDefault();
+            alert('Passwords do not match!');
+            return false;
+        }
+
+        // Check password length
+        if (password1.length < 8) {
+            e.preventDefault();
+            alert('Password must be at least 8 characters long');
+            return false;
+        }
+
+        // Check if terms are accepted
+        if (!termsChecked) {
+            e.preventDefault();
+            alert('Please accept the Terms & Conditions');
+            return false;
+        }
+
+        return true;
+    });
+
+    function togglePasswordVisibility(inputId, buttonId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(buttonId + 'Icon');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        }
+    }
+</script>
+{% endblock %}

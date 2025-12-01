@@ -1,0 +1,272 @@
+﻿{% extends 'atomic/base.html' %}
+
+{% block title %}Find Doctors - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 0 0 30px 30px;
+    }
+
+    .search-bar {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+    }
+
+    .doctor-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .doctor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+    .doctor-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        margin: 0 auto 1.5rem;
+        border: 5px solid #f8f9fa;
+    }
+
+    .specialization-badge {
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+
+    .doctor-info {
+        flex-grow: 1;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.8rem;
+        color: #6c757d;
+    }
+
+        .info-item i {
+            color: #667eea;
+            width: 20px;
+        }
+
+    .rating {
+        color: #ffc107;
+        margin-bottom: 1rem;
+    }
+
+    .btn-book {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 0.8rem;
+        border-radius: 15px;
+        font-weight: 600;
+        margin-top: auto;
+    }
+
+        .btn-book:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+    .filter-btn {
+        border-radius: 20px;
+        padding: 0.5rem 1.5rem;
+        margin: 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container text-center">
+        <h1 class="mb-2"><i class="bi bi-person-badge"></i> Find Your Doctor</h1>
+        <p class="mb-0 opacity-75">Browse through our network of verified healthcare professionals</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Search & Filter Bar -->
+    <div class="search-bar">
+        <form method="get" class="row g-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text"
+                           class="form-control"
+                           name="search"
+                           placeholder="Search by doctor name or specialization..."
+                           value="{{ request.GET.search }}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" name="specialization">
+                    <option value="">All Specializations</option>
+                    {% for specialization in specializations %}
+                    <option value="{{ specialization.slug }}" {% if current_specialization and current_specialization.id == specialization.id %}selected{% endif %}>
+                        {{ specialization.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="text-center mb-4">
+        <a href="{% url 'doctors:doctor_list' %}?rating=high" class="btn btn-outline-primary filter-btn">
+            <i class="bi bi-stars"></i> Highly Rated
+        </a>
+        <a href="{% url 'doctors:doctor_list' %}" class="btn btn-outline-primary filter-btn">
+            <i class="bi bi-clock"></i> Available Today
+        </a>
+    </div>
+
+    <!-- Doctors Grid -->
+    <div class="row g-4">
+        {% if doctors %}
+        {% for doctor in doctors %}
+        <div class="col-md-6 col-lg-4">
+            <div class="doctor-card">
+                <div class="doctor-avatar">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+
+                <div class="text-center doctor-info">
+                    <h5 class="mb-2">Dr. {{ doctor.user.get_full_name }}</h5>
+
+                    <div class="specialization-badge">
+                        {{ doctor.specialization }}
+                    </div>
+
+                    <div class="rating mb-2">
+                        {% with avg_rating=doctor.get_average_rating rating_count=doctor.get_rating_count %}
+                            {% if rating_count > 0 %}
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= avg_rating|floatformat:0|add:"0" %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% elif forloop.counter|add:"-1" < avg_rating|floatformat:0|add:"0" %}
+                                        <i class="bi bi-star-half"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <span class="text-muted">({{ avg_rating }}) - {{ rating_count }} review{{ rating_count|pluralize }}</span>
+                            {% else %}
+                                <span class="text-muted">No ratings yet</span>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+
+                    <div class="text-start mt-3">
+                        <div class="info-item">
+                            <i class="bi bi-award"></i>
+                            <span>{{ doctor.specialization }}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="bi bi-telephone"></i>
+                            <span>{{ doctor.user.phone_number|default:"Not available" }}</span>
+                        </div>
+
+                        {% if doctor.consultation_fee %}
+                        <div class="info-item">
+                            <i class="bi bi-currency-dollar"></i>
+                            <span>₱{{ doctor.consultation_fee }} consultation fee</span>
+                        </div>
+                        {% endif %}
+                        
+                        {% if doctor.bio %}
+                        <div class="info-item">
+                            <i class="bi bi-info-circle"></i>
+                            <span>{{ doctor.bio|truncatewords:10 }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <a href="{% url 'doctors:doctor_detail' doctor.id %}" class="btn btn-outline-primary w-100 mb-2">
+                        <i class="bi bi-eye"></i> View Profile
+                    </a>
+                    <a href="{% url 'appointments:appointment_create' %}?doctor={{ doctor.id }}" class="btn btn-book">
+                        <i class="bi bi-calendar-plus"></i> Book Appointment
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <!-- Empty State -->
+        <div class="col-12">
+            <div class="text-center py-5">
+                <i class="bi bi-person-x" style="font-size: 5rem; color: #dee2e6;"></i>
+                <h4 class="text-muted mt-3">No Doctors Found</h4>
+                <p class="text-muted">Try adjusting your search or filters</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination (if needed) -->
+    {% if doctors.has_other_pages %}
+    <nav class="mt-5">
+        <ul class="pagination justify-content-center">
+            {% if doctors.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ doctors.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            {% for num in doctors.paginator.page_range %}
+            <li class="page-item {% if doctors.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+
+            {% if doctors.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ doctors.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

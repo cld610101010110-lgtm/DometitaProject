@@ -1,0 +1,17 @@
+{% comment %}
+Usage: {% include 'atomic/atoms/input.html' with name='email' type='email' placeholder='Enter email' %}
+{% endcomment %}
+
+<input type="{{ type|default:'text' }}" 
+       class="form-control {% if error %}is-invalid{% endif %}"
+       name="{{ name }}"
+       id="{{ id|default:name }}"
+       placeholder="{{ placeholder }}"
+       value="{{ value|default:'' }}"
+       {% if required %}required{% endif %}
+       {% if readonly %}readonly{% endif %}
+       {% if disabled %}disabled{% endif %}>
+
+{% if error %}
+<div class="invalid-feedback">{{ error }}</div>
+{% endif %}

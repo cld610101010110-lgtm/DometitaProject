@@ -1,0 +1,420 @@
+{% extends 'atomic/base.html' %}
+
+{% block title %}Admin Dashboard - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 0 0 30px 30px;
+    }
+
+    .quick-actions {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+    }
+
+    .action-btn {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        height: 100%;
+    }
+
+        .action-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .action-btn i {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+    .recent-section {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .section-title {
+        color: #667eea;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .table-custom {
+        margin: 0;
+    }
+
+        .table-custom thead {
+            background: #f8f9fa;
+        }
+
+        .table-custom tbody tr {
+            transition: all 0.3s ease;
+        }
+
+            .table-custom tbody tr:hover {
+                background: rgba(102, 126, 234, 0.05);
+            }
+
+    .chart-container {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+        height: 400px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+    <div class="container">
+        <h1 class="mb-2"><i class="bi bi-speedometer2"></i> Admin Dashboard</h1>
+        <p class="mb-0 opacity-75">Welcome back! Here's what's happening today.</p>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <i class="bi bi-calendar-check"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">{{ total_appointments }}</div>
+                <div class="stat-label">Total Appointments</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <i class="bi bi-person-badge"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">{{ active_doctors }}</div>
+                <div class="stat-label">Active Doctors</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <i class="bi bi-people"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">{{ total_patients }}</div>
+                <div class="stat-label">Total Patients</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">{{ pending_appointments }}</div>
+                <div class="stat-label">Pending Appointments</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Appointments Table -->
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="bi bi-calendar2-week me-2"></i>Recent Appointments</h5>
+        <a href="{% url 'appointments:appointment_list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+    </div>
+    <div class="card-body">
+        {% if recent_appointments %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in recent_appointments %}
+                    <tr>
+                        <td>{{ appointment.patient.get_full_name }}</td>
+                        <td>Dr. {{ appointment.doctor.user.get_full_name }}</td>
+                        <td>{{ appointment.date|date:"M d, Y" }}</td>
+                        <td>{{ appointment.time|time:"h:i A" }}</td>
+                        <td>
+                            {% if appointment.status == 'pending' %}
+                            <span class="badge bg-warning">Pending</span>
+                            {% elif appointment.status == 'confirmed' %}
+                            <span class="badge bg-success">Confirmed</span>
+                            {% elif appointment.status == 'completed' %}
+                            <span class="badge bg-info">Completed</span>
+                            {% elif appointment.status == 'cancelled' %}
+                            <span class="badge bg-danger">Cancelled</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'appointments:appointment_detail' pk=appointment.id %}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted text-center py-4">No appointments found.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Today's Schedule -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-calendar-day me-2"></i>Today's Schedule</h5>
+    </div>
+    <div class="card-body">
+        {% if today_schedule %}
+        <div class="list-group">
+            {% for appointment in today_schedule %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">{{ appointment.patient.get_full_name }}</h6>
+                        <small class="text-muted">Dr. {{ appointment.doctor.user.get_full_name }} - {{ appointment.doctor.specialization }}</small>
+                    </div>
+                    <span class="badge bg-primary">{{ appointment.time|time:"h:i A" }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted text-center py-4">No appointments scheduled for today.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Recent Notifications -->
+<div class="recent-section">
+    <div class="section-header">
+        <h5 class="section-title">
+            <i class="bi bi-bell"></i> Notifications
+        </h5>
+    </div>
+
+    <div class="mb-3 p-3" style="background: rgba(102, 126, 234, 0.05); border-radius: 8px;">
+        <i class="bi bi-info-circle text-primary me-2"></i>
+        <small>New patient registered</small>
+        <br>
+        <small class="text-muted">2 hours ago</small>
+    </div>
+
+    <div class="mb-3 p-3" style="background: rgba(40, 167, 69, 0.05); border-radius: 8px;">
+        <i class="bi bi-check-circle text-success me-2"></i>
+        <small>Appointment confirmed</small>
+        <br>
+        <small class="text-muted">4 hours ago</small>
+    </div>
+
+    <div class="mb-3 p-3" style="background: rgba(220, 53, 69, 0.05); border-radius: 8px;">
+        <i class="bi bi-x-circle text-danger me-2"></i>
+        <small>Appointment cancelled</small>
+        <br>
+        <small class="text-muted">Yesterday</small>
+    </div>
+
+    <a href="{% url 'notification_list' %}" class="btn btn-outline-primary w-100">
+        View All Notifications
+    </a>
+</div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="container mb-4">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="bi bi-lightning-charge me-2"></i>Quick Actions</h5>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <a href="{% url 'admin_create_doctor' %}" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-person-plus"></i> Create Doctor Account
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="{% url 'admin_update_account' %}" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-person-gear"></i> Update My Account
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/admin/" class="btn btn-outline-primary w-100" target="_blank">
+                        <i class="bi bi-gear"></i> Django Admin Panel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Doctor Management Section -->
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-person-badge me-2"></i>Doctor Management</h5>
+            <a href="{% url 'admin_create_doctor' %}" class="btn btn-sm btn-primary">
+                <i class="bi bi-plus-circle"></i> Create New Doctor
+            </a>
+        </div>
+        <div class="card-body">
+            {% if all_doctors %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Specialization</th>
+                            <th>Consultation Fee</th>
+                            <th>Availability</th>
+                            <th>Rating</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for doctor_user in all_doctors %}
+                        <tr>
+                            <td>{{ doctor_user.get_full_name }}</td>
+                            <td>{{ doctor_user.email }}</td>
+                            <td>
+                                {% if doctor_user.doctor %}
+                                    {{ doctor_user.doctor.specialization }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if doctor_user.doctor %}
+                                    ₱{{ doctor_user.doctor.consultation_fee }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if doctor_user.doctor_profile %}
+                                    {% if doctor_user.doctor_profile.is_available %}
+                                        <span class="badge bg-success">Available</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Not Available</span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="badge bg-secondary">N/A</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if doctor_user.doctor %}
+                                    {% with avg_rating=doctor_user.doctor.get_average_rating %}
+                                        {% if avg_rating > 0 %}
+                                            {{ avg_rating|floatformat:1 }}/5.0
+                                        {% else %}
+                                            No ratings
+                                        {% endif %}
+                                    {% endwith %}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'admin_edit_doctor' doctor_user.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted text-center py-4">No doctors found. <a href="{% url 'admin_create_doctor' %}">Create the first doctor</a></p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Appointment Trend Chart
+    const ctx = document.getElementById('appointmentChart');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Appointments',
+                    data: [12, 19, 15, 25, 22, 18, 20],
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+</script>
+{% endblock %}

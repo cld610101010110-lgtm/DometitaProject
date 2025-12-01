@@ -1,0 +1,372 @@
+{% extends 'atomic/base.html' %}
+{% load static %}
+
+{% block title %}Appointment Details - MedLynk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .detail-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .info-row {
+        display: flex;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        font-weight: 600;
+        color: #666;
+        width: 200px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .info-value {
+        flex: 1;
+        color: #333;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .timeline {
+        position: relative;
+        padding-left: 2rem;
+    }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 1.5rem;
+        padding-left: 2rem;
+    }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #667eea;
+        }
+
+    .timeline-time {
+        font-size: 0.875rem;
+        color: #999;
+        margin-bottom: 0.25rem;
+    }
+
+    .timeline-content {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    .status-badge-large {
+        padding: 0.5rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .doctor-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .doctor-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #667eea;
+    }
+
+    .doctor-info h4 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .doctor-info p {
+        margin: 0.25rem 0 0 0;
+        opacity: 0.9;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <div class="detail-card">
+                <div class="detail-header">
+                    <div>
+                        <h2 class="mb-1">Appointment Details</h2>
+                        <p class="text-muted mb-0">Reference: #{{ appointment.id|default:"APT-001" }}</p>
+                    </div>
+                    <div>
+                        {% include 'atomic/atoms/badge.html' with text=appointment.status|default:"confirmed" type="success" size="large" %}
+                    </div>
+                </div>
+
+                <!-- Appointment Information -->
+                <h5 class="mb-3"><i class="bi bi-info-circle"></i> Appointment Information</h5>
+
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="bi bi-calendar-event"></i>
+                        Date
+                    </div>
+                    <div class="info-value">
+                        <strong>{{ appointment.date|default:"December 15, 2024" }}</strong>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="bi bi-clock"></i>
+                        Time
+                    </div>
+                    <div class="info-value">
+                        <strong>{{ appointment.time|default:"10:00 AM" }}</strong>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="bi bi-hospital"></i>
+                        Department
+                    </div>
+                    <div class="info-value">
+                        {{ appointment.department|default:"General Medicine" }}
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="bi bi-clipboard-pulse"></i>
+                        Type
+                    </div>
+                    <div class="info-value">
+                        {{ appointment.type|default:"Regular Checkup" }}
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="bi bi-chat-left-text"></i>
+                        Reason
+                    </div>
+                    <div class="info-value">
+                        {{ appointment.reason|default:"Annual health checkup and consultation" }}
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="bi bi-file-earmark-text"></i>
+                        Notes
+                    </div>
+                    <div class="info-value">
+                        {{ appointment.notes|default:"Patient experiencing mild headaches for the past week." }}
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    {% if appointment.status == 'pending' or appointment.status == 'confirmed' %}
+                    <a href="{% url 'appointments:appointment_edit' appointment.id %}" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i> Reschedule
+                    </a>
+                    <a href="{% url 'appointments:appointment_delete' appointment.id %}" class="btn btn-danger">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </a>
+                    {% elif appointment.status == 'completed' %}
+                        {% if not appointment.patient_confirmed_completion %}
+                        <form method="post" action="{% url 'appointments:confirm_completion' appointment.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle"></i> Confirm Completion
+                            </button>
+                        </form>
+                        {% elif not has_rating %}
+                        <a href="{% url 'appointments:rate_appointment' appointment.id %}" class="btn btn-primary">
+                            <i class="bi bi-star"></i> Rate Doctor
+                        </a>
+                        {% else %}
+                        <span class="badge bg-success">
+                            <i class="bi bi-check-circle"></i> Rated
+                        </span>
+                        {% endif %}
+                    {% endif %}
+                    <button class="btn btn-outline-primary" onclick="window.print()">
+                        <i class="bi bi-printer"></i> Print
+                    </button>
+                    <a href="{% url 'appointments:appointment_list' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+
+            <!-- Activity Timeline -->
+            <div class="detail-card">
+                <h5 class="mb-4"><i class="bi bi-clock-history"></i> Activity Timeline</h5>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">December 15, 2024 - 10:30 AM</div>
+                        <div class="timeline-content">
+                            <strong>Appointment Confirmed</strong>
+                            <p class="mb-0 mt-1">Your appointment has been confirmed by Dr. Smith</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">December 14, 2024 - 3:45 PM</div>
+                        <div class="timeline-content">
+                            <strong>Reminder Sent</strong>
+                            <p class="mb-0 mt-1">Email reminder sent to patient</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">December 10, 2024 - 9:15 AM</div>
+                        <div class="timeline-content">
+                            <strong>Appointment Created</strong>
+                            <p class="mb-0 mt-1">Appointment scheduled by {{ request.user.get_full_name|default:"Juan Dela Cruz" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Doctor Information -->
+            <div class="doctor-card mb-4">
+                <div class="doctor-avatar">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <div class="doctor-info">
+                    <h4>{{ appointment.doctor|default:"Dr. Maria Santos" }}</h4>
+                    <p>Specialist in General Medicine</p>
+                    <p><i class="bi bi-star-fill text-warning"></i> 4.8 (124 reviews)</p>
+                </div>
+            </div>
+
+            <!-- Patient Information -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-person"></i> Patient Details</h5>
+
+                <div class="info-row">
+                    <div class="info-label">Name</div>
+                    <div class="info-value">{{ patient.name|default:"Juan Dela Cruz" }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Age</div>
+                    <div class="info-value">{{ patient.age|default:"32 years" }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Gender</div>
+                    <div class="info-value">{{ patient.gender|default:"Male" }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Contact</div>
+                    <div class="info-value">{{ patient.phone|default:"+63 912 345 6789" }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">{{ patient.email|default:"juan@email.com" }}</div>
+                </div>
+            </div>
+
+            <!-- Location Information -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-geo-alt"></i> Location</h5>
+
+                <p><strong>MedLynk Clinic - Main Branch</strong></p>
+                <p class="text-muted mb-2">123 Health Street, Medical District<br>Malolos, Bulacan 3000</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-lightning"></i> Quick Actions</h5>
+
+                <div class="d-grid gap-2">
+                    <a href="{% url 'appointments:appointment_messages' appointment.id %}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-chat-dots"></i> Message Doctor
+                    </a>
+                    <a href="{% url 'appointments:completed_history' %}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-file-earmark-medical"></i> View Medical Records
+                    </a>
+                    <a href="{% url 'appointments:download_receipt' appointment.id %}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-download"></i> Download Receipt (PDF)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add confirmation for cancel button
+    document.querySelectorAll('a.btn-danger').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            if (!confirm('Are you sure you want to cancel this appointment?')) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+{% endblock %}
