@@ -10,9 +10,8 @@ def notification_context(request):
 
         # Unread messages count
         unread_messages_count = AppointmentMessage.objects.filter(
-            recipient=request.user
-        ).exclude(
-            sender=request.user
+            recipient=request.user,
+            is_read=False
         ).count()
 
         return {

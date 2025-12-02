@@ -224,6 +224,13 @@ def appointment_messages(request, pk):
         messages.error(request, 'Please enter a message before sending.')
     
     messages_thread = appointment.messages.select_related('sender').all()
+
+    # Mark all messages in this conversation as read for the current user
+    appointment.messages.filter(
+        recipient=request.user,
+        is_read=False
+    ).update(is_read=True)
+
     context = {
         'appointment': appointment,
         'messages_thread': messages_thread,

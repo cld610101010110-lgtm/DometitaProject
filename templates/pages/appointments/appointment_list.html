@@ -116,12 +116,23 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
             <div>
-                <h1 class="mb-2"><i class="bi bi-calendar-check"></i> My Appointments</h1>
-                <p class="mb-0 opacity-75">View and manage your medical appointments</p>
+                <h1 class="mb-2">
+                    <i class="bi bi-calendar-check"></i>
+                    {% if is_admin %}All Appointments{% else %}My Appointments{% endif %}
+                </h1>
+                <p class="mb-0 opacity-75">
+                    {% if is_admin %}
+                    View and manage all system appointments
+                    {% else %}
+                    View and manage your medical appointments
+                    {% endif %}
+                </p>
             </div>
+            {% if not is_admin %}
             <a href="{% url 'appointments:appointment_create' %}" class="btn btn-light btn-lg">
                 <i class="bi bi-plus-circle"></i> Book Appointment
             </a>
+            {% endif %}
         </div>
     </div>
 </div>
