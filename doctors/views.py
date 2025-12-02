@@ -191,15 +191,33 @@ def appointment_action(request, appointment_id, action):
         appointment.status = 'confirmed'
         appointment.save()
         messages.success(request, f'Appointment with {appointment.patient.get_full_name()} confirmed.')
+
+        # Create notification for patient
+        from notifications.models import Notification
+        Notification.objects.create(
+            user=appointment.patient,
+            notification_type='appointment_confirmed',
+            title='Appointment Confirmed',
+            message=f'Your appointment with Dr. {doctor.user.get_full_name()} on {appointment.date.strftime("%B %d, %Y")} at {appointment.time.strftime("%I:%M %p")} has been confirmed.'
+        )
     elif action == 'cancel':
         appointment.status = 'cancelled'
         appointment.save()
         messages.warning(request, f'Appointment with {appointment.patient.get_full_name()} cancelled.')
+
+        # Create notification for patient
+        from notifications.models import Notification
+        Notification.objects.create(
+            user=appointment.patient,
+            notification_type='appointment_cancelled',
+            title='Appointment Cancelled',
+            message=f'Your appointment with Dr. {doctor.user.get_full_name()} on {appointment.date.strftime("%B %d, %Y")} at {appointment.time.strftime("%I:%M %p")} has been cancelled.'
+        )
     elif action == 'complete':
         appointment.status = 'completed'
         appointment.save()
         messages.success(request, f'Appointment with {appointment.patient.get_full_name()} marked as completed.')
-    
+
     return redirect('doctors:dashboard')
 
 
