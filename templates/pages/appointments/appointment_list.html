@@ -166,11 +166,20 @@
         <div class="appointment-header">
             <div class="doctor-info">
                 <div class="doctor-avatar">
+                    {% if appointment.doctor.user.profile_picture %}
+                    <img src="{{ appointment.doctor.user.profile_picture.url }}"
+                         alt="{{ appointment.doctor.user.get_full_name }}"
+                         style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                    {% else %}
                     <i class="bi bi-person-badge"></i>
+                    {% endif %}
                 </div>
                 <div>
                     <h5 class="mb-1">Dr. {{ appointment.doctor.user.get_full_name }}</h5>
                     <p class="text-muted mb-0">{{ appointment.doctor.specialization }}</p>
+                    {% if is_admin %}
+                    <small class="text-muted">Patient: {{ appointment.patient.get_full_name }}</small>
+                    {% endif %}
                 </div>
             </div>
             <div>
