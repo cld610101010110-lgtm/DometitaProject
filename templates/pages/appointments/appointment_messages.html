@@ -247,9 +247,10 @@
             messageInput.focus();
         }
 
-        // Submit with Ctrl+Enter
+        // Submit with Enter key (Shift+Enter for new line)
         messageInput.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'Enter') {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
                 document.getElementById('messageForm').submit();
             }
         });

@@ -55,7 +55,23 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="flex-grow-1">
                                 <div class="d-flex align-items-center mb-2">
-                                    <i class="bi bi-person-circle me-2" style="font-size: 2.5rem; color: #667eea;"></i>
+                                    {% if user.role == 'patient' %}
+                                        {% if conv.appointment.doctor.user.profile_picture %}
+                                        <img src="{{ conv.appointment.doctor.user.profile_picture.url }}"
+                                             alt="Dr. {{ conv.appointment.doctor.user.get_full_name }}"
+                                             style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 0.75rem;">
+                                        {% else %}
+                                        <i class="bi bi-person-circle me-2" style="font-size: 2.5rem; color: #667eea;"></i>
+                                        {% endif %}
+                                    {% else %}
+                                        {% if conv.appointment.patient.profile_picture %}
+                                        <img src="{{ conv.appointment.patient.profile_picture.url }}"
+                                             alt="{{ conv.appointment.patient.get_full_name }}"
+                                             style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 0.75rem;">
+                                        {% else %}
+                                        <i class="bi bi-person-circle me-2" style="font-size: 2.5rem; color: #667eea;"></i>
+                                        {% endif %}
+                                    {% endif %}
                                     <div>
                                         <h5 class="mb-0">
                                             {% if user.role == 'patient' %}
