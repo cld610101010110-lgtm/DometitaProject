@@ -39,6 +39,8 @@ class Appointment(models.Model):
     notes = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     patient_confirmed_completion = models.BooleanField(default=False, help_text="Patient confirmed the appointment was completed")
+    patient_acknowledged = models.BooleanField(default=False, help_text="Patient marked completed appointment as done")
+    doctor_acknowledged = models.BooleanField(default=False, help_text="Doctor marked completed appointment as done")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

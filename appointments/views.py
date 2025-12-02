@@ -336,3 +336,55 @@ def messages_inbox(request):
         'title': 'Messages'
     }
     return render(request, 'pages/messages/inbox.html', context)
+
+
+@login_required
+def delete_message(request, message_id):
+    """Delete a single message"""
+    message = get_object_or_404(AppointmentMessage, id=message_id)
+
+    # Verify user is sender or recipient
+    if request.user != message.sender and request.user != message.recipient:
+        messages.error(request, 'You do not have permission to delete this message.')
+        return redirect('appointments:messages_inbox')
+
+    appointment_id = message.appointment.id
+    message.delete()
+    messages.success(request, 'Message deleted successfully.')
+    return redirect('appointments:appointment_messages', pk=appointment_id)
+
+
+@login_required
+def delete_conversation(request, appointment_id):
+    """Delete entire conversation (all messages for an appointment)"""
+    appointment = _get_appointment_for_user(appointment_id, request.user)
+
+    # Delete all messages for this appointment
+    message_count = appointment.messages.count()
+    appointment.messages.all().delete()
+
+    messages.success(request, f'{message_count} message(s) deleted successfully.')
+    return redirect('appointments:messages_inbox')
+
+
+@login_required
+def acknowledge_appointment(request, pk):
+    """Mark a completed appointment as acknowledged (Done button)"""
+    appointment = _get_appointment_for_user(pk, request.user)
+
+    # Only allow acknowledging completed appointments
+    if appointment.status != 'completed':
+        messages.error(request, 'Only completed appointments can be marked as done.')
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+    # Mark as acknowledged based on user role
+    if request.user.role == 'patient':
+        appointment.patient_acknowledged = True
+    elif request.user.role == 'doctor':
+        appointment.doctor_acknowledged = True
+
+    appointment.save()
+    messages.success(request, 'Appointment marked as done.')
+
+    # Redirect back to referring page
+    return redirect(request.META.get('HTTP_REFERER', 'home'))

@@ -147,6 +147,31 @@
         margin-bottom: 1rem;
         opacity: 0.3;
     }
+
+    .message-bubble {
+        position: relative;
+    }
+
+    .delete-message-btn {
+        position: absolute;
+        top: 5px;
+        opacity: 0;
+        transition: opacity 0.2s;
+        font-size: 0.75rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .message-bubble:hover .delete-message-btn {
+        opacity: 1;
+    }
+
+    .message-bubble.sent .delete-message-btn {
+        right: -35px;
+    }
+
+    .message-bubble.received .delete-message-btn {
+        left: -35px;
+    }
 </style>
 {% endblock %}
 
@@ -181,6 +206,11 @@
             {% if messages_thread %}
                 {% for item in messages_thread %}
                 <div class="message-bubble {% if item.sender == user %}sent{% else %}received{% endif %}">
+                    <a href="{% url 'appointments:delete_message' item.id %}"
+                       class="btn btn-sm btn-danger delete-message-btn"
+                       onclick="return confirm('Delete this message?');">
+                        <i class="bi bi-trash"></i>
+                    </a>
                     {% if item.sender != user %}
                     <div class="message-sender">
                         {{ item.sender.get_full_name }}

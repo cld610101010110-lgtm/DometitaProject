@@ -109,10 +109,11 @@ def patient_dashboard(request):
         status__in=['confirmed', 'pending']
     ).select_related('doctor', 'doctor__user').order_by('date', 'time')[:5]
     
-    # Get recent completed appointments
+    # Get recent completed appointments (not acknowledged yet)
     completed_appointments = Appointment.objects.filter(
         patient=request.user,
-        status='completed'
+        status='completed',
+        patient_acknowledged=False
     ).select_related('doctor', 'doctor__user').order_by('-date', '-time')[:5]
     
     # Calculate BMI if metrics are available
