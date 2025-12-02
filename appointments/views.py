@@ -336,3 +336,32 @@ def messages_inbox(request):
         'title': 'Messages'
     }
     return render(request, 'pages/messages/inbox.html', context)
+
+
+@login_required
+def delete_message(request, message_id):
+    """Delete a single message"""
+    message = get_object_or_404(AppointmentMessage, id=message_id)
+
+    # Verify user is sender or recipient
+    if request.user != message.sender and request.user != message.recipient:
+        messages.error(request, 'You do not have permission to delete this message.')
+        return redirect('appointments:messages_inbox')
+
+    appointment_id = message.appointment.id
+    message.delete()
+    messages.success(request, 'Message deleted successfully.')
+    return redirect('appointments:appointment_messages', pk=appointment_id)
+
+
+@login_required
+def delete_conversation(request, appointment_id):
+    """Delete entire conversation (all messages for an appointment)"""
+    appointment = _get_appointment_for_user(appointment_id, request.user)
+
+    # Delete all messages for this appointment
+    message_count = appointment.messages.count()
+    appointment.messages.all().delete()
+
+    messages.success(request, f'{message_count} message(s) deleted successfully.')
+    return redirect('appointments:messages_inbox')
