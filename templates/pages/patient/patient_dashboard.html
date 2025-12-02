@@ -352,9 +352,14 @@
                                 <i class="bi bi-calendar"></i> {{ appointment.date|date:"F d, Y" }} at {{ appointment.time|time:"g:i A" }}
                             </div>
                         </div>
-                        <div>
+                        <div class="d-flex gap-2">
                             <a href="{% url 'appointments:appointment_detail' pk=appointment.id %}" class="btn btn-sm btn-outline-primary">
                                 View
+                            </a>
+                            <a href="{% url 'appointments:acknowledge_appointment' pk=appointment.id %}"
+                               class="btn btn-sm btn-success"
+                               onclick="return confirm('Mark this appointment as done? It will be removed from this list.');">
+                                <i class="bi bi-check2"></i> Done
                             </a>
                         </div>
                     </div>

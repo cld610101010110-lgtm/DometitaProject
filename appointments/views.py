@@ -365,3 +365,26 @@ def delete_conversation(request, appointment_id):
 
     messages.success(request, f'{message_count} message(s) deleted successfully.')
     return redirect('appointments:messages_inbox')
+
+
+@login_required
+def acknowledge_appointment(request, pk):
+    """Mark a completed appointment as acknowledged (Done button)"""
+    appointment = _get_appointment_for_user(pk, request.user)
+
+    # Only allow acknowledging completed appointments
+    if appointment.status != 'completed':
+        messages.error(request, 'Only completed appointments can be marked as done.')
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+    # Mark as acknowledged based on user role
+    if request.user.role == 'patient':
+        appointment.patient_acknowledged = True
+    elif request.user.role == 'doctor':
+        appointment.doctor_acknowledged = True
+
+    appointment.save()
+    messages.success(request, 'Appointment marked as done.')
+
+    # Redirect back to referring page
+    return redirect(request.META.get('HTTP_REFERER', 'home'))

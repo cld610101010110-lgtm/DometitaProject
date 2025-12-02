@@ -10,6 +10,7 @@ urlpatterns = [
     path('<int:pk>/edit/', views.appointment_edit, name='appointment_edit'),
     path('<int:pk>/delete/', views.appointment_delete, name='appointment_delete'),
     path('<int:pk>/confirm-completion/', views.confirm_completion, name='confirm_completion'),
+    path('<int:pk>/acknowledge/', views.acknowledge_appointment, name='acknowledge_appointment'),
     path('<int:pk>/rate/', views.rate_appointment, name='rate_appointment'),
     path('<int:pk>/messages/', views.appointment_messages, name='appointment_messages'),
     path('messages/inbox/', views.messages_inbox, name='messages_inbox'),
