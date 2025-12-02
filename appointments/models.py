@@ -40,6 +40,7 @@ class Appointment(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     patient_confirmed_completion = models.BooleanField(default=False, help_text="Patient confirmed the appointment was completed")
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
         ordering = ['-date', '-time']

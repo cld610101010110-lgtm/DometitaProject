@@ -21,9 +21,16 @@
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-3">
+                                {% if patient.profile_picture %}
+                                <img src="{{ patient.profile_picture.url }}"
+                                     alt="{{ patient.get_full_name }}"
+                                     class="me-3"
+                                     style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                                {% else %}
                                 <div class="avatar-circle bg-primary text-white me-3" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold;">
                                     {{ patient.first_name|first }}{{ patient.last_name|first }}
                                 </div>
+                                {% endif %}
                                 <div>
                                     <h5 class="mb-1">{{ patient.get_full_name }}</h5>
                                     <p class="text-muted mb-0 small">Patient</p>

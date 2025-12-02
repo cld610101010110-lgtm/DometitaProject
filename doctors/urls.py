@@ -9,5 +9,6 @@ urlpatterns = [
     path('dashboard/', views.doctor_dashboard, name='dashboard'),  # Doctor's own dashboard
     path('appointments/', views.doctor_appointments, name='appointments'),
     path('patients/', views.doctor_patients, name='patients'),
+    path('ratings/', views.doctor_ratings_feedback, name='ratings_feedback'),
     path('appointment/<int:appointment_id>/<str:action>/', views.appointment_action, name='appointment_action'),
 ]

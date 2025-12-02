@@ -191,15 +191,33 @@ def appointment_action(request, appointment_id, action):
         appointment.status = 'confirmed'
         appointment.save()
         messages.success(request, f'Appointment with {appointment.patient.get_full_name()} confirmed.')
+
+        # Create notification for patient
+        from notifications.models import Notification
+        Notification.objects.create(
+            user=appointment.patient,
+            notification_type='appointment_confirmed',
+            title='Appointment Confirmed',
+            message=f'Your appointment with Dr. {doctor.user.get_full_name()} on {appointment.date.strftime("%B %d, %Y")} at {appointment.time.strftime("%I:%M %p")} has been confirmed.'
+        )
     elif action == 'cancel':
         appointment.status = 'cancelled'
         appointment.save()
         messages.warning(request, f'Appointment with {appointment.patient.get_full_name()} cancelled.')
+
+        # Create notification for patient
+        from notifications.models import Notification
+        Notification.objects.create(
+            user=appointment.patient,
+            notification_type='appointment_cancelled',
+            title='Appointment Cancelled',
+            message=f'Your appointment with Dr. {doctor.user.get_full_name()} on {appointment.date.strftime("%B %d, %Y")} at {appointment.time.strftime("%I:%M %p")} has been cancelled.'
+        )
     elif action == 'complete':
         appointment.status = 'completed'
         appointment.save()
         messages.success(request, f'Appointment with {appointment.patient.get_full_name()} marked as completed.')
-    
+
     return redirect('doctors:dashboard')
 
 
@@ -275,7 +293,7 @@ def doctor_detail(request, pk):
     ratings = doctor.ratings.select_related('patient').all()
     total_appointments = doctor.appointments.count()
     total_patients = doctor.appointments.values('patient_id').distinct().count()
-    
+
     context = {
         'doctor': doctor,
         'profile': profile,
@@ -287,3 +305,48 @@ def doctor_detail(request, pk):
         'title': f"Dr. {doctor.user.get_full_name()}"
     }
     return render(request, 'pages/doctors/doctor_detail.html', context)
+
+
+@login_required
+def doctor_ratings_feedback(request):
+    """View for doctors to see their ratings and patient feedback"""
+    # Check if user is a doctor
+    if request.user.role != 'doctor':
+        messages.error(request, 'Access denied. This page is only for doctors.')
+        return redirect('profile')
+
+    # Get Doctor instance
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        messages.error(request, 'Doctor profile not found.')
+        return redirect('doctors:dashboard')
+
+    # Get all ratings with related patient and appointment info
+    from appointments.models import DoctorRating
+    ratings = DoctorRating.objects.filter(doctor=doctor).select_related(
+        'patient', 'appointment'
+    ).order_by('-created_at')
+
+    # Calculate statistics
+    total_ratings = ratings.count()
+    average_rating = doctor.get_average_rating()
+
+    # Count ratings by star level
+    ratings_breakdown = {
+        5: ratings.filter(rating=5).count(),
+        4: ratings.filter(rating=4).count(),
+        3: ratings.filter(rating=3).count(),
+        2: ratings.filter(rating=2).count(),
+        1: ratings.filter(rating=1).count(),
+    }
+
+    context = {
+        'doctor': doctor,
+        'ratings': ratings,
+        'total_ratings': total_ratings,
+        'average_rating': average_rating,
+        'ratings_breakdown': ratings_breakdown,
+        'title': 'My Ratings & Feedback'
+    }
+    return render(request, 'pages/doctors/doctor_ratings.html', context)

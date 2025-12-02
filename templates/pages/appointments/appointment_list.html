@@ -182,8 +182,17 @@
                     {% endif %}
                 </div>
             </div>
-            <div>
+            <div class="d-flex flex-column align-items-end gap-2">
                 {% include 'atomic/atoms/badge.html' with status=appointment.status text=appointment.get_status_display %}
+                {% load humanize %}
+                {% if appointment.status == 'confirmed' or appointment.status == 'cancelled' %}
+                    {% now "U" as current_timestamp %}
+                    {% if appointment.updated_at|timesince|slice:":1" == "0" or "minute" in appointment.updated_at|timesince or "hour" in appointment.updated_at|timesince %}
+                        <span class="badge bg-danger">
+                            <i class="bi bi-bell-fill"></i> New Update
+                        </span>
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
 
@@ -206,6 +215,17 @@
                 <i class="bi bi-calendar-check"></i>
                 <strong>Status:</strong> {{ appointment.get_status_display }}
             </div>
+            {% if appointment.status == 'confirmed' %}
+            <div class="detail-item text-success">
+                <i class="bi bi-check-circle-fill"></i>
+                <strong>Confirmed on:</strong> {{ appointment.updated_at|date:"M d, Y h:i A" }}
+            </div>
+            {% elif appointment.status == 'cancelled' %}
+            <div class="detail-item text-danger">
+                <i class="bi bi-x-circle-fill"></i>
+                <strong>Cancelled on:</strong> {{ appointment.updated_at|date:"M d, Y h:i A" }}
+            </div>
+            {% endif %}
         </div>
 
         <div class="mt-3 d-flex gap-2">
