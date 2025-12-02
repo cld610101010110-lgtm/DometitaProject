@@ -165,7 +165,13 @@
         <div class="col-md-6 col-lg-4">
             <div class="doctor-card">
                 <div class="doctor-avatar">
+                    {% if doctor.user.profile_picture %}
+                    <img src="{{ doctor.user.profile_picture.url }}"
+                         alt="Dr. {{ doctor.user.get_full_name }}"
+                         style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 5px solid #f8f9fa;">
+                    {% else %}
                     <i class="bi bi-person-badge"></i>
+                    {% endif %}
                 </div>
 
                 <div class="text-center doctor-info">
