@@ -7,17 +7,27 @@ from .models import Notification
 def notification_list(request):
     """List all notifications for the current user"""
     notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
-    
-    # Separate read and unread
-    unread_notifications = notifications.filter(is_read=False)
-    read_notifications = notifications.filter(is_read=True)
-    
+
+    # Get filter parameter
+    filter_type = request.GET.get('filter', 'all')
+
+    # Apply filtering based on type
+    if filter_type == 'unread':
+        notifications = notifications.filter(is_read=False)
+    elif filter_type == 'appointments':
+        notifications = notifications.filter(notification_type__startswith='appointment_')
+    elif filter_type == 'updates':
+        notifications = notifications.filter(notification_type__in=['appointment_confirmed', 'appointment_cancelled'])
+    elif filter_type == 'reminders':
+        notifications = notifications.filter(notification_type='appointment_reminder')
+    # 'all' shows everything (no additional filter)
+
     context = {
-        'unread_notifications': unread_notifications,
-        'read_notifications': read_notifications,
+        'notifications': notifications,
+        'current_filter': filter_type,
         'title': 'Notifications'
     }
-    return render(request, 'notifications/notification_list.html', context)
+    return render(request, 'pages/notifications/notification_list.html', context)
 
 @login_required
 def mark_as_read(request, pk):
