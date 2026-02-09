@@ -27,6 +27,4 @@ urlpatterns = [
     # Admin Appointments Management
     path('admin/appointments/', views.admin_appointments_list, name='admin_appointments_list'),
 
-    # Notifications
-    path('notifications/', views.notification_list, name='notification_list'),
 ]

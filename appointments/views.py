@@ -298,7 +298,9 @@ def download_receipt(request, pk):
 @login_required
 def messages_inbox(request):
     """View all message conversations for the logged-in user"""
-    from django.db.models import Q, Max
+    from django.db.models import Q
+
+    search_query = request.GET.get('search', '').strip()
 
     # Get all appointments where user is involved and has messages
     if request.user.role == 'patient':
@@ -314,6 +316,19 @@ def messages_inbox(request):
     else:
         appointments_with_messages = Appointment.objects.none()
 
+    # Filter conversations by search query
+    if search_query:
+        if request.user.role == 'patient':
+            appointments_with_messages = appointments_with_messages.filter(
+                Q(doctor__user__first_name__icontains=search_query) |
+                Q(doctor__user__last_name__icontains=search_query)
+            )
+        elif request.user.role == 'doctor':
+            appointments_with_messages = appointments_with_messages.filter(
+                Q(patient__first_name__icontains=search_query) |
+                Q(patient__last_name__icontains=search_query)
+            )
+
     # Add last message info to each appointment
     conversations = []
     for appointment in appointments_with_messages:
@@ -324,15 +339,46 @@ def messages_inbox(request):
                 'last_message': last_message,
                 'unread_count': appointment.messages.filter(
                     recipient=request.user,
-                    sender=last_message.sender
+                    is_read=False
                 ).count()
             })
 
     # Sort by most recent message
     conversations.sort(key=lambda x: x['last_message'].created_at, reverse=True)
 
+    # Search contacts: show appointments without messages yet that match search
+    search_contacts = []
+    if search_query:
+        if request.user.role == 'patient':
+            contact_appointments = Appointment.objects.filter(
+                patient=request.user,
+                status__in=['confirmed', 'pending', 'completed']
+            ).filter(
+                Q(doctor__user__first_name__icontains=search_query) |
+                Q(doctor__user__last_name__icontains=search_query)
+            ).exclude(
+                id__in=appointments_with_messages.values_list('id', flat=True)
+            ).select_related('doctor', 'doctor__user').distinct()
+        elif request.user.role == 'doctor':
+            contact_appointments = Appointment.objects.filter(
+                doctor__user=request.user,
+                status__in=['confirmed', 'pending', 'completed']
+            ).filter(
+                Q(patient__first_name__icontains=search_query) |
+                Q(patient__last_name__icontains=search_query)
+            ).exclude(
+                id__in=appointments_with_messages.values_list('id', flat=True)
+            ).select_related('patient', 'doctor__user').distinct()
+        else:
+            contact_appointments = Appointment.objects.none()
+
+        for appt in contact_appointments:
+            search_contacts.append({'appointment': appt})
+
     context = {
         'conversations': conversations,
+        'search_contacts': search_contacts,
+        'search_query': search_query,
         'title': 'Messages'
     }
     return render(request, 'pages/messages/inbox.html', context)
