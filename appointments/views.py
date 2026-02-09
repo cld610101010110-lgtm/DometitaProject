@@ -55,7 +55,16 @@ def appointment_create(request):
             appointment.patient = request.user
             appointment.status = 'pending'
             appointment.save()
-            
+
+            # Notify the doctor about the new appointment
+            from notifications.models import Notification
+            Notification.objects.create(
+                user=appointment.doctor.user,
+                notification_type='appointment_created',
+                title='New Appointment Request',
+                message=f'{request.user.get_full_name()} has booked an appointment on {appointment.date.strftime("%B %d, %Y")} at {appointment.time.strftime("%I:%M %p")}. Please review and confirm.'
+            )
+
             messages.success(request, 'Appointment booked successfully! We will confirm shortly.')
             return redirect('appointments:appointment_list')
         else:
@@ -194,9 +203,19 @@ def appointment_delete(request, pk):
     if request.method == 'POST':
         appointment.status = 'cancelled'
         appointment.save()
+
+        # Notify the doctor about the cancellation
+        from notifications.models import Notification
+        Notification.objects.create(
+            user=appointment.doctor.user,
+            notification_type='appointment_cancelled',
+            title='Appointment Cancelled by Patient',
+            message=f'{request.user.get_full_name()} has cancelled their appointment on {appointment.date.strftime("%B %d, %Y")} at {appointment.time.strftime("%I:%M %p")}.'
+        )
+
         messages.success(request, 'Appointment cancelled successfully.')
         return redirect('appointments:appointment_list')
-    
+
     context = {
         'appointment': appointment,
         'title': 'Cancel Appointment'
