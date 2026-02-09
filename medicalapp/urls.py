@@ -19,8 +19,8 @@ urlpatterns = [
     path('dashboard/', account_views.patient_dashboard, name='patient_dashboard'),
     path('admin-dashboard/', account_views.admin_dashboard, name='admin_dashboard'),
 
-    # Notifications
-    path('notifications/', account_views.notification_list, name='notification_list'),
+    # Notifications (include full notifications app URLs)
+    path('notifications/', include('notifications.urls')),
 
     # Include other app URLs
     path('', include('accounts.urls')),  # Include all accounts URLs

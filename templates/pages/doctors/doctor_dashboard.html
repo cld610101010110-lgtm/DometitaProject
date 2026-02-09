@@ -84,8 +84,21 @@
         <!-- Header -->
         <div class="row mb-4">
             <div class="col-12">
-                <h2>👨‍⚕️ Doctor Dashboard</h2>
-                <p class="text-muted">Welcome back, Dr. {{ request.user.get_full_name }}! Here's what's happening today.</p>
+                <div class="d-flex align-items-center">
+                    {% if request.user.profile_picture %}
+                        <img src="{{ request.user.profile_picture.url }}"
+                             alt="Dr. {{ request.user.get_full_name }}"
+                             style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-right: 1rem; border: 3px solid #667eea;">
+                    {% else %}
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; margin-right: 1rem; border: 3px solid #667eea;">
+                            <i class="bi bi-person-fill" style="font-size: 1.8rem; color: white;"></i>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h2 class="mb-0">Doctor Dashboard</h2>
+                        <p class="text-muted mb-0">Welcome back, Dr. {{ request.user.get_full_name }}! Here's what's happening today.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
