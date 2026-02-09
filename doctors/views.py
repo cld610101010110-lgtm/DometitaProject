@@ -218,6 +218,15 @@ def appointment_action(request, appointment_id, action):
         appointment.save()
         messages.success(request, f'Appointment with {appointment.patient.get_full_name()} marked as completed.')
 
+        # Create notification for patient
+        from notifications.models import Notification
+        Notification.objects.create(
+            user=appointment.patient,
+            notification_type='appointment_confirmed',
+            title='Appointment Completed',
+            message=f'Your appointment with Dr. {doctor.user.get_full_name()} on {appointment.date.strftime("%B %d, %Y")} has been marked as completed. Please confirm and rate your experience.'
+        )
+
     return redirect('doctors:dashboard')
 
 
